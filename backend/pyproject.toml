@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "src"
+name = "random-dish"
 version = "0.1.0"
 description = ""
 authors = ["shin-hama <htysivista@gmail.com>"]
