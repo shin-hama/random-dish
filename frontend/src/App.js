@@ -1,5 +1,7 @@
 import React from 'react'
 import axios from 'axios'
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
 
 function App() {
   const [test, setTest] = React.useState({ test: [] })
@@ -20,9 +22,13 @@ function App() {
   }, [])
   return (
     <div>
-      {test.test.map((item) => (
-        <p key={item}>{item}</p>
-      ))}
+      <Grid container spacing={3}>
+        {test.test.map((item) => (
+          <Grid key={item} item xs={3}>
+            <Paper>{item}</Paper>
+          </Grid>
+        ))}
+      </Grid>
     </div>
   )
 }
