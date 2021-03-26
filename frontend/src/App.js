@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
-import Paper from '@material-ui/core/Paper'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
 import Grid from '@material-ui/core/Grid'
 
 function App() {
@@ -25,7 +26,9 @@ function App() {
       <Grid container spacing={3}>
         {test.test.map((item) => (
           <Grid key={item} item xs={3}>
-            <Paper>{item}</Paper>
+            <Card>
+              <CardContent>{item}</CardContent>
+            </Card>
           </Grid>
         ))}
       </Grid>
