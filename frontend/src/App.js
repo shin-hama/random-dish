@@ -1,8 +1,11 @@
 import React from 'react'
 import axios from 'axios'
+import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Grid from '@material-ui/core/Grid'
+
+import Header from './Header'
 
 function App() {
   const [test, setTest] = React.useState({ test: [] })
@@ -23,6 +26,7 @@ function App() {
   }, [])
   return (
     <div>
+      <Header />
       <Grid container spacing={3}>
         {test.test.map((item) => (
           <Grid key={item} item xs={3}>
@@ -32,6 +36,7 @@ function App() {
           </Grid>
         ))}
       </Grid>
+      <Button>Lets search!</Button>
     </div>
   )
 }
