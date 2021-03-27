@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
+  toolbar: {
+    paddingRight: 24, // keep right padding when drawer closed
   },
   title: {
     flexGrow: 1,
@@ -30,18 +30,16 @@ function Header() {
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Random Dish
-          </Typography>
-          <IconButton color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-    </div>
+    <AppBar position="relative">
+      <Toolbar>
+        <Typography variant="h6" className={classes.title} noWrap>
+          Random Dish
+        </Typography>
+        <IconButton color="inherit" aria-label="menu">
+          <MenuIcon />
+        </IconButton>
+      </Toolbar>
+    </AppBar>
   )
 }
 
