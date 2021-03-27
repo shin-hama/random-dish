@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from random import randint
 
 app = FastAPI()
 
@@ -18,4 +19,5 @@ app.add_middleware(
 
 @app.get("/")
 async def get_test():
-    return {"test": "foo"}
+    result = [randint(0, 100) for _ in range(0, 4)]
+    return {"test": result}
