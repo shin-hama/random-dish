@@ -9,6 +9,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
+import Copyright from './Footer'
 import Header from './Header'
 
 const useStyles = makeStyles((theme) => ({
@@ -24,10 +25,15 @@ const useStyles = makeStyles((theme) => ({
   mainButton: {
     marginTop: theme.spacing(4),
   },
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
+  },
 }))
 
 function App() {
   const classes = useStyles()
+  const [button, setButton] = React.useState('Enjoy Your Dish!')
   const [test, setTest] = React.useState({ test: [] })
 
   const getTest = () => {
@@ -36,6 +42,7 @@ function App() {
       .then((response) => {
         console.log(response)
         setTest(response.data)
+        setButton('retry')
       })
       .catch(() => {
         console.log('error')
@@ -54,14 +61,14 @@ function App() {
             align="center"
             color="textPrimary"
             gutterBottom>
-            Find Your Dish !!
+            Find Your Dish!!
           </Typography>
           <Typography
             variant="h5"
             align="center"
             color="textSecondary"
             paragraph>
-            食べたいものが決まらない、そんなあなたに提案します。
+            食べたいものが決まらない?
           </Typography>{' '}
           <Grid container spacing={3}>
             {test.test.map((item) => (
@@ -76,14 +83,18 @@ function App() {
             <Grid item>
               <Button
                 variant="contained"
+                color="primary"
                 onClick={getTest}
                 className={classes.mainButton}>
-                Lets search!
+                {button}
               </Button>
             </Grid>
           </Grid>
         </Container>
       </main>
+      <footer className={classes.footer}>
+        <Copyright />
+      </footer>
     </div>
   )
 }

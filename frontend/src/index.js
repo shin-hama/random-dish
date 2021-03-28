@@ -1,11 +1,57 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 
+const customTheme = createMuiTheme({
+  mixins: {
+    toolbar: {
+      minHeight: 48,
+    },
+  },
+  // Set TEL brand color: cyan and green
+  palette: {
+    primary: {
+      main: '#00A9E0',
+      contrastText: 'white',
+    },
+    secondary: {
+      main: '#78BE20',
+    },
+    error: {
+      main: '#DA1884',
+    },
+    warning: {
+      main: '#FF6A13',
+    },
+    info: {
+      main: '#8031A7',
+    },
+    success: {
+      main: '#00B2A9',
+    },
+  },
+  props: {
+    MuiTextField: {
+      variant: 'outlined',
+    },
+    MuiList: {
+      dense: true,
+    },
+  },
+  typography: {
+    button: {
+      textTransform: 'none',
+    },
+  },
+})
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <MuiThemeProvider theme={customTheme}>
+      <App />
+    </MuiThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )
