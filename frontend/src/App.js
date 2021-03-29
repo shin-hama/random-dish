@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography'
 
 import Copyright from './Footer'
 import Header from './Header'
+import MyMap from './Map'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   mainButton: {
     marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
@@ -35,12 +37,25 @@ function App() {
   const classes = useStyles()
   const [button, setButton] = React.useState('Enjoy Your Dish!')
   const [test, setTest] = React.useState({ test: [] })
+  const [apiKey, setApiKey] = React.useState('')
+  const [center, setCenter] = React.useState({
+    lat: 0,
+    lng: 0,
+  })
+
+  const onClick = () => {
+    if (!apiKey) {
+      // Run only one time to get api key and current pos
+      getApi()
+      getCurrentPosition()
+    }
+    getTest()
+  }
 
   const getTest = () => {
     axios
       .get('http://127.0.0.1:8000')
       .then((response) => {
-        console.log(response)
         setTest(response.data)
         setButton('retry')
       })
@@ -49,8 +64,35 @@ function App() {
       })
   }
 
+  const getApi = () => {
+    axios
+      .get('http://127.0.0.1:8000/api-key')
+      .then((response) => {
+        setApiKey(response.data)
+      })
+      .catch(() => {
+        console.log('error')
+      })
+  }
+
+  const getCurrentPosition = () => {
+    // 精度があまり高くないので、要検討
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setCenter({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        })
+        console.log(position.coords)
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
+  }
+
   return (
-    <div>
+    <div onLoad={getApi}>
       <CssBaseLine />
       <Header />
       <main className={classes.content}>
@@ -68,7 +110,7 @@ function App() {
             align="center"
             color="textSecondary"
             paragraph>
-            食べたいものが決まらない?
+            What will you eat?
           </Typography>{' '}
           <Grid container spacing={3}>
             {test.test.map((item) => (
@@ -84,11 +126,14 @@ function App() {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={getTest}
+                onClick={onClick}
                 className={classes.mainButton}>
                 {button}
               </Button>
             </Grid>
+          </Grid>
+          <Grid container justify="center">
+            <MyMap apiKey={apiKey} center={center} />
           </Grid>
         </Container>
       </main>
