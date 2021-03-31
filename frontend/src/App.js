@@ -17,18 +17,15 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
-
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(4, 0, 6),
+  card: {
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
   },
   mainButton: {
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(4),
   },
   footer: {
-    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
 }))
@@ -115,11 +112,14 @@ function App() {
           <Grid container spacing={3}>
             {test.test.map((item) => (
               <Grid key={item} item xs={3}>
-                <Card>
+                <Card className={classes.card}>
                   <CardContent>{item}</CardContent>
                 </Card>
               </Grid>
             ))}
+          </Grid>
+          <Grid container justify="center">
+            <MyMap apiKey={apiKey} center={center} />
           </Grid>
           <Grid container justify="center">
             <Grid item>
@@ -131,9 +131,6 @@ function App() {
                 {button}
               </Button>
             </Grid>
-          </Grid>
-          <Grid container justify="center">
-            <MyMap apiKey={apiKey} center={center} />
           </Grid>
         </Container>
       </main>
