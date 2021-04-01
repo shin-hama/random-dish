@@ -168,6 +168,17 @@ pycodestyle = ">=2.7.0,<2.8.0"
 pyflakes = ">=2.3.0,<2.4.0"
 
 [[package]]
+name = "googlemaps"
+version = "4.4.5"
+description = "Python client library for Google Maps Platform"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.dependencies]
+requests = ">=2.20.0,<3.0"
+
+[[package]]
 name = "graphene"
 version = "2.1.8"
 description = "GraphQL Framework for Python"
@@ -608,7 +619,7 @@ python-versions = ">=3.6.1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "d5fb66956d783f7bfde86927cb9fd6bd0adb9808c5823c117c46d2da14e92165"
+content-hash = "9820f8bcfbdc4b3c84eb8b225118ae57422b702cab513664155afa53d00de96f"
 
 [metadata.files]
 aiofiles = [
@@ -670,6 +681,9 @@ fastapi = [
 flake8 = [
     {file = "flake8-3.9.0-py2.py3-none-any.whl", hash = "sha256:12d05ab02614b6aee8df7c36b97d1a3b2372761222b19b58621355e82acddcff"},
     {file = "flake8-3.9.0.tar.gz", hash = "sha256:78873e372b12b093da7b5e5ed302e8ad9e988b38b063b61ad937f26ca58fc5f0"},
+]
+googlemaps = [
+    {file = "googlemaps-4.4.5.tar.gz", hash = "sha256:a91945e4c7cf835a7837f413d54617d0901f02aa16fe382f1b223cacf19539f0"},
 ]
 graphene = [
     {file = "graphene-2.1.8-py2.py3-none-any.whl", hash = "sha256:09165f03e1591b76bf57b133482db9be6dac72c74b0a628d3c93182af9c5a896"},

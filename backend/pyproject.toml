@@ -8,6 +8,7 @@ authors = ["shin-hama <htysivista@gmail.com>"]
 python = "^3.9"
 fastapi = {extras = ["all"], version = "^0.63.0"}
 python-dotenv = "^0.16.0"
+googlemaps = "^4.4.5"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
