@@ -26,11 +26,19 @@ gmaps = googlemaps.Client(key=apikey)
 #                                      departure_time=now)
 
 # 検索条件 (input) に一致する場所を検索
-place_result = gmaps.find_place(
-    input=["Cafe", "Kanagawa", "Japan"],
-    input_type="textquery",
-    fields=["business_status", "formatted_address", "geometry",
-            "icon", "name", "photos", "place_id", "plus_code", "types"]
-)
-with open("test.json", mode="w", encoding="utf-8") as f:
-    json.dump(place_result, f, ensure_ascii=False, indent=2)
+# place_result = gmaps.find_place(
+#     input=["Cafe", "Kanagawa", "Japan"],
+#     input_type="textquery",
+#     fields=["business_status", "formatted_address", "geometry",
+#             "icon", "name", "photos", "place_id", "plus_code", "types"]
+# )
+# with open("test.json", mode="w", encoding="utf-8") as f:
+#     json.dump(place_result, f, ensure_ascii=False, indent=2)
+
+# 現在位置を取得（GPSではなく通信情報から）
+geolocate_result = gmaps.geolocate()
+print(geolocate_result)
+
+rev_result = gmaps.reverse_geocode(geolocate_result["location"], language="ja")
+for r in rev_result:
+    print(r)
