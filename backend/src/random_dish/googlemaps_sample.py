@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 import json
+import time
 
 import googlemaps
 
@@ -37,8 +38,23 @@ gmaps = googlemaps.Client(key=apikey)
 
 # 現在位置を取得（GPSではなく通信情報から）
 geolocate_result = gmaps.geolocate()
-print(geolocate_result)
 
-rev_result = gmaps.reverse_geocode(geolocate_result["location"], language="ja")
-for r in rev_result:
-    print(r)
+results = gmaps.places_nearby(
+    geolocate_result["location"], radius=1000, language="ja",
+)
+for r in results["results"]:
+    print(r["name"])
+
+for i in range(2):
+    print("=" * 10 + f" {i+1} times " + "="*10)
+    try:
+        # sleepを入れないとエラーが帰ってくる(Google側の仕様)
+        time.sleep(1.5)
+        results = gmaps.places_nearby(
+            page_token=results["next_page_token"]
+        )
+        for r in results["results"]:
+            print(r["name"])
+    except KeyError:
+        # 最大で60件まで検索可能、60件終わると next_page_token が含まれなくなる。
+        break
