@@ -32,7 +32,7 @@ class GoogleMap:
         geolocate: dict = self.gmaps.geolocate()
         return geolocate
 
-    def search_nearby(self, location: Optional[tuple] = None):
+    def search_nearby(self, location: Optional[tuple] = None) -> list:
         """ Search 60 places that are nearby specified location.
         """
         results: list = []
@@ -50,13 +50,13 @@ class GoogleMap:
         for i in range(3):
             places = self.gmaps.places_nearby(**attr)
             results.extend(places["results"])
-            # sleepを入れないとエラーが帰ってくる(Google側の仕様)
-            time.sleep(1.5)
             try:
                 # Update attribute to get next 20 places.
                 attr = {
                     "page_token": places["next_page_token"]
                 }
+                # sleepを入れないとエラーが帰ってくる(Google側の仕様)
+                time.sleep(2)
             except KeyError:
                 # 最大で60件まで next_page_token が帰ってくる
                 break

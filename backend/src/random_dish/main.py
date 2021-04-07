@@ -6,6 +6,8 @@ from random import randint
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from google_maps_wrapper import GoogleMap
+
 app = FastAPI()
 
 # CORS setting
@@ -28,7 +30,14 @@ async def get_test():
 
 
 @app.get("/api-key")
-async def get_api():
-    dotenv_path = Path(__file__).absolute().parents[2] / '.env'
-    load_dotenv(dotenv_path)
-    return os.environ.get("API_KEY")
+async def get_api() -> dict:
+    apikey: str = GoogleMap.get_apikey()
+    return {"apikey": apikey}
+
+
+@app.get("/search_nearby")
+async def get_search_nearby_result():
+    gmaps = GoogleMap()
+    result = gmaps.search_nearby()
+
+    return {"results": len(result)}

@@ -34,19 +34,26 @@ function App() {
   const classes = useStyles()
   const [button, setButton] = React.useState('Enjoy Your Dish!')
   const [test, setTest] = React.useState({ test: [] })
-  const [apiKey, setApiKey] = React.useState('')
+  const [apiKey, setApiKey] = React.useState({ apikey: '' })
   const [center, setCenter] = React.useState({
     lat: 0,
     lng: 0,
   })
 
   const onClick = () => {
-    if (!apiKey) {
-      // Run only one time to get api key and current pos
+    if (!apiKey.apikey) {
       getApi()
       getCurrentPosition()
     }
     getTest()
+    axios
+      .get(`http://127.0.01:8000/search_nearby`)
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch(() => {
+        console.log('fail to use google map api')
+      })
   }
 
   const getTest = () => {
@@ -66,11 +73,14 @@ function App() {
       .get('http://127.0.0.1:8000/api-key')
       .then((response) => {
         setApiKey(response.data)
+        console.log(response.data)
       })
       .catch(() => {
         console.log('error')
       })
   }
+
+  React.useEffect(() => {}, [])
 
   const getCurrentPosition = () => {
     // 精度があまり高くないので、要検討
@@ -89,7 +99,7 @@ function App() {
   }
 
   return (
-    <div onLoad={getApi}>
+    <div>
       <CssBaseLine />
       <Header />
       <main className={classes.content}>
@@ -119,7 +129,7 @@ function App() {
             ))}
           </Grid>
           <Grid container justify="center">
-            <MyMap apiKey={apiKey} center={center} />
+            <MyMap apiKey={apiKey.apikey} center={center} />
           </Grid>
           <Grid container justify="center">
             <Grid item>
