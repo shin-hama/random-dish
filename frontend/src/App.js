@@ -112,8 +112,8 @@ function App() {
             What will you eat?
           </Typography>{' '}
           <Grid container spacing={3}>
-            {places.results.map((item) => (
-              <Grid key={item.name} item xs={3}>
+            {places.results.map((item, i) => (
+              <Grid key={i} item xs={3}>
                 <Card className={classes.card}>
                   <CardContent>{item.name}</CardContent>
                 </Card>
@@ -121,7 +121,11 @@ function App() {
             ))}
           </Grid>
           <Grid container justify="center">
-            <MyMap apiKey={apiKey.apikey} center={center} />
+            <MyMap
+              apiKey={apiKey.apikey}
+              center={center}
+              places={places.results}
+            />
           </Grid>
           <Grid container justify="center">
             <Grid item>
