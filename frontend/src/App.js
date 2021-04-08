@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles()
   const [button, setButton] = React.useState('Enjoy Your Dish!')
-  const [test, setTest] = React.useState({ test: [] })
   const [apiKey, setApiKey] = React.useState({ apikey: '' })
+  const [places, setPlaces] = React.useState({ results: [] })
   const [center, setCenter] = React.useState({
     lat: 0,
     lng: 0,
@@ -46,25 +46,18 @@ function App() {
       getCurrentPosition()
     }
     getTest()
-    axios
-      .get(`http://127.0.01:8000/search_nearby`)
-      .then((response) => {
-        console.log(response.data)
-      })
-      .catch(() => {
-        console.log('fail to use google map api')
-      })
   }
 
   const getTest = () => {
     axios
-      .get('http://127.0.0.1:8000')
+      .get(`http://127.0.01:8000/search_nearby`)
       .then((response) => {
-        setTest(response.data)
+        console.log(response.data)
+        setPlaces(response.data)
         setButton('retry')
       })
       .catch(() => {
-        console.log('error')
+        console.log('fail to use google map api')
       })
   }
 
@@ -73,7 +66,6 @@ function App() {
       .get('http://127.0.0.1:8000/api-key')
       .then((response) => {
         setApiKey(response.data)
-        console.log(response.data)
       })
       .catch(() => {
         console.log('error')
@@ -120,10 +112,10 @@ function App() {
             What will you eat?
           </Typography>{' '}
           <Grid container spacing={3}>
-            {test.test.map((item) => (
-              <Grid key={item} item xs={3}>
+            {places.results.map((item) => (
+              <Grid key={item.name} item xs={3}>
                 <Card className={classes.card}>
-                  <CardContent>{item}</CardContent>
+                  <CardContent>{item.name}</CardContent>
                 </Card>
               </Grid>
             ))}

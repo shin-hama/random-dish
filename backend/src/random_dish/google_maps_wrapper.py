@@ -47,7 +47,7 @@ class GoogleMap:
             "language": "ja",
         }
         # We can get 20 places at one time.
-        for i in range(3):
+        for i in range(1):
             places = self.gmaps.places_nearby(**attr)
             results.extend(places["results"])
             try:
