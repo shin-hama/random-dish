@@ -63,9 +63,24 @@ class GoogleMap:
 
         return results
 
+    def get_place_detail(self, place_id: str):
+        fields = [
+            "address_component", "adr_address", "formatted_address",
+            "geometry", "icon", "name", "permanently_closed", "photo",
+            "place_id", "plus_code", "type", "url", "utc_offset", "vicinity"
+        ]
+        place = self.gmaps.place(place_id, fields=fields, language="ja")
+        print(place)
+        for i, photo_info in enumerate(place["result"]["photos"]):
+            photo = self.gmaps.places_photo(
+                photo_info["photo_reference"], max_width=600)
+            with open(f"test{i}.png", mode="wb") as f:
+                for chunk in photo:
+                    if chunk:
+                        f.write(chunk)
+
 
 if __name__ == '__main__':
     gmaps = GoogleMap()
-    places = gmaps.search_nearby()
-
-    print(places)
+    # places = gmaps.search_nearby()
+    gmaps.get_place_detail("ChIJpzB3HgrkGGARsbyOD_WqzmY")
