@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 import time
-from typing import Iterator, Union
+from typing import Iterator, Optional
 
 import googlemaps
 
@@ -14,7 +14,7 @@ class GoogleMap:
 
     @classmethod
     def get_apikey(cls) -> str:
-        """ Get API_KEY that is environment variant
+        """ Get API_KEY that is set environment variant
         """
         dotenv_path = Path(__file__).absolute().parents[2] / '.env'
         load_dotenv(dotenv_path)
@@ -28,12 +28,28 @@ class GoogleMap:
 
     def get_current_locate(self) -> dict:
         """ Get your current location (from communication information, not GPS)
+
+        Retrun
+        ------
+        geolocate : dict
+            The current latitude and longitude and response information.
         """
         geolocate: dict = self.gmaps.geolocate()
         return geolocate
 
-    def search_nearby(self, location: Optional[tuple] = None) -> list:
+    def search_nearby(self, location: Optional[tuple] = None) -> list[dict]:
         """ Search 60 places that are nearby specified location.
+
+        Parameter
+        ---------
+        location : tuple or None default is None
+            The center location for searching.
+            If the value is None, use current location.
+
+        Return
+        ------
+        results : list of dict
+            The places found by googlemap api
         """
         results: list = []
 
@@ -74,6 +90,7 @@ class GoogleMap:
             Identified string to get place info from googlemap
         fields : list of str default is empty list
             List of detailed information to request googlemap api.
+            Add this attribute to default fields.
 
         Return
         ------
@@ -90,16 +107,16 @@ class GoogleMap:
             "vicinity"
         ]
         # Remove duplicate field from both input fields and default fields.
-        fields = list(set(*fields, *default_field))
+        fields = list(set([*fields, *default_field]))
         place = self.gmaps.place(place_id, fields=fields, language="ja")
         if place["status"] != "OK":
             return {}
 
         photos = place["result"]["photos"]
-        photos = [self.get_place_photos(photo["reference"])
+        photos = [self.get_place_photos(photo["photo_reference"])
                   for photo in photos]
 
-        return place
+        return place["result"]
 
     def get_place_photos(self, photo_ref: str) -> Iterator:
         """ Get photo image chunk from photo reference of google map api.
@@ -124,5 +141,6 @@ class GoogleMap:
 
 if __name__ == '__main__':
     gmaps = GoogleMap()
+
     # places = gmaps.search_nearby()
     print(gmaps.get_place_detail("ChIJpzB3HgrkGGARsbyOD_WqzmY"))
