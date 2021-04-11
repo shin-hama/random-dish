@@ -3,7 +3,7 @@ import random
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from google_maps_wrapper import GoogleMap
+from random_dish.google_maps_wrapper import GoogleMap
 
 app = FastAPI()
 
@@ -31,6 +31,9 @@ async def get_search_nearby_result():
     gmaps = GoogleMap()
     result = gmaps.search_nearby()
 
-    places = random.sample(result, 4)
+    selected_places = random.sample(result, 4)
+
+    places = [gmaps.get_place_detail(place["place_id"])
+              for place in selected_places]
 
     return {"results": places}
