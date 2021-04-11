@@ -4,14 +4,13 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import CssBaseLine from '@material-ui/core/CssBaseline'
 import Button from '@material-ui/core/Button'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 import Copyright from './Footer'
 import Header from './Header'
 import MyMap from './Map'
+import PlaceCards from './PlaceCard'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -111,15 +110,7 @@ function App() {
             paragraph>
             What will you eat?
           </Typography>{' '}
-          <Grid container spacing={3} alignItems="center" justify="center">
-            {places.results.map((item, i) => (
-              <Grid key={i} item xs={4}>
-                <Card className={classes.card} align="center">
-                  <CardContent>{item.name}</CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+          <PlaceCards places={places.results} />
           <Grid container justify="center">
             <MyMap
               apiKey={apiKey.apikey}
