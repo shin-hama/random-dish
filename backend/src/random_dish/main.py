@@ -31,7 +31,7 @@ async def get_search_nearby_result():
     gmaps = GoogleMap()
     result = gmaps.search_nearby()
 
-    selected_places = random.sample(result, 4)
+    selected_places = random.sample(result, 2)
 
     places = [gmaps.get_place_detail(place["place_id"])
               for place in selected_places]

@@ -112,6 +112,7 @@ class GoogleMap:
         if place["status"] != "OK":
             return {}
 
+        print(place)
         photos = place["result"]["photos"]
         photos = [self.get_place_photos(photo["photo_reference"])
                   for photo in photos]

@@ -111,10 +111,10 @@ function App() {
             paragraph>
             What will you eat?
           </Typography>{' '}
-          <Grid container spacing={3}>
+          <Grid container spacing={3} alignItems="center" justify="center">
             {places.results.map((item, i) => (
-              <Grid key={i} item xs={3}>
-                <Card className={classes.card}>
+              <Grid key={i} item xs={4}>
+                <Card className={classes.card} align="center">
                   <CardContent>{item.name}</CardContent>
                 </Card>
               </Grid>
