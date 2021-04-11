@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 import time
-from typing import Optional, Union
+from typing import Iterator, Union
 
 import googlemaps
 
@@ -65,8 +65,22 @@ class GoogleMap:
 
         return results
 
-    def get_place_detail(self, place_id: str) -> dict:
-        fields = [
+    def get_place_detail(self, place_id: str, fields: list[str] = []) -> dict:
+        """ Get place information from place id. Return value
+
+        Parameter
+        ---------
+        place_id : str
+            Identified string to get place info from googlemap
+        fields : list of str default is empty list
+            List of detailed information to request googlemap api.
+
+        Return
+        ------
+        place["result"] : dict
+            Place detail info that is extracted from responce of google map api
+        """
+        default_field: list = [
             "formatted_address",
             "geometry",
             "name",
@@ -75,34 +89,40 @@ class GoogleMap:
             "url",
             "vicinity"
         ]
+        # Remove duplicate field from both input fields and default fields.
+        fields = list(set(*fields, *default_field))
         place = self.gmaps.place(place_id, fields=fields, language="ja")
         if place["status"] != "OK":
             return {}
-        import json
-        with open("place_detail.json", mode="w", encoding="utf-8") as f:
-            json.dump(place, f, ensure_ascii=True, indent=4)
+
         photos = place["result"]["photos"]
-        photos = self.get_place_photos(photos)
+        photos = [self.get_place_photos(photo["reference"])
+                  for photo in photos]
 
-        return place["result"]
+        return place
 
-    def get_place_photos(self, photo_refs: list[dict]) -> list[str]:
+    def get_place_photos(self, photo_ref: str) -> Iterator:
         """ Get photo image chunk from photo reference of google map api.
 
         ex)
         place = googlemaps.Client(key=apikey).place(place_id)
-        photos = self.get_place_photos(place["result"]["photos"])
-        """
-        photos = []
-        for i, photo_ref in enumerate(photo_refs):
-            photos.append(self.gmaps.places_photo(
-                photo_ref["photo_reference"], max_width=600
-            ))
+        photos = self.get_place_photos(place["result"]["photos"]["reference"])
 
-        return photos
+        Parameter
+        ---------
+        photo_refs : str
+            The reference key to request googlemap api
+
+        Return
+        ------
+        photo : Iterator
+            Iterator containing raw image data
+        """
+        photo = self.gmaps.places_photo(photo_ref, max_width=600)
+        return photo
 
 
 if __name__ == '__main__':
     gmaps = GoogleMap()
     # places = gmaps.search_nearby()
-    gmaps.get_place_detail("ChIJpzB3HgrkGGARsbyOD_WqzmY")
+    print(gmaps.get_place_detail("ChIJpzB3HgrkGGARsbyOD_WqzmY"))
