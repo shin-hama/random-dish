@@ -1,10 +1,9 @@
-import os
-from dotenv import load_dotenv
-from pathlib import Path
-from random import randint
+import random
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+from random_dish.google_maps_wrapper import GoogleMap
 
 app = FastAPI()
 
@@ -21,14 +20,20 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-async def get_test():
-    result = [randint(0, 100) for _ in range(0, 4)]
-    return {"test": result}
-
-
 @app.get("/api-key")
-async def get_api():
-    dotenv_path = Path(__file__).absolute().parents[2] / '.env'
-    load_dotenv(dotenv_path)
-    return os.environ.get("API_KEY")
+async def get_api() -> dict:
+    apikey: str = GoogleMap.get_apikey()
+    return {"apikey": apikey}
+
+
+@app.get("/search_nearby")
+async def get_search_nearby_result():
+    gmaps = GoogleMap()
+    result = gmaps.search_nearby()
+
+    selected_places = random.sample(result, 4)
+
+    places = [gmaps.get_place_detail(place["place_id"])
+              for place in selected_places]
+
+    return {"results": places}

@@ -33,16 +33,15 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles()
   const [button, setButton] = React.useState('Enjoy Your Dish!')
-  const [test, setTest] = React.useState({ test: [] })
-  const [apiKey, setApiKey] = React.useState('')
+  const [apiKey, setApiKey] = React.useState({ apikey: '' })
+  const [places, setPlaces] = React.useState({ results: [] })
   const [center, setCenter] = React.useState({
     lat: 0,
     lng: 0,
   })
 
   const onClick = () => {
-    if (!apiKey) {
-      // Run only one time to get api key and current pos
+    if (!apiKey.apikey) {
       getApi()
       getCurrentPosition()
     }
@@ -51,13 +50,14 @@ function App() {
 
   const getTest = () => {
     axios
-      .get('http://127.0.0.1:8000')
+      .get(`http://127.0.01:8000/search_nearby`)
       .then((response) => {
-        setTest(response.data)
+        console.log(response.data)
+        setPlaces(response.data)
         setButton('retry')
       })
       .catch(() => {
-        console.log('error')
+        console.log('fail to use google map api')
       })
   }
 
@@ -71,6 +71,8 @@ function App() {
         console.log('error')
       })
   }
+
+  React.useEffect(() => {}, [])
 
   const getCurrentPosition = () => {
     // 精度があまり高くないので、要検討
@@ -89,7 +91,7 @@ function App() {
   }
 
   return (
-    <div onLoad={getApi}>
+    <div>
       <CssBaseLine />
       <Header />
       <main className={classes.content}>
@@ -110,16 +112,20 @@ function App() {
             What will you eat?
           </Typography>{' '}
           <Grid container spacing={3}>
-            {test.test.map((item) => (
-              <Grid key={item} item xs={3}>
+            {places.results.map((item, i) => (
+              <Grid key={i} item xs={3}>
                 <Card className={classes.card}>
-                  <CardContent>{item}</CardContent>
+                  <CardContent>{item.name}</CardContent>
                 </Card>
               </Grid>
             ))}
           </Grid>
           <Grid container justify="center">
-            <MyMap apiKey={apiKey} center={center} />
+            <MyMap
+              apiKey={apiKey.apikey}
+              center={center}
+              places={places.results}
+            />
           </Grid>
           <Grid container justify="center">
             <Grid item>
