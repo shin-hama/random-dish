@@ -1,7 +1,9 @@
+from io import BytesIO
 import random
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 
 from random_dish.google_maps_wrapper import GoogleMap
 
@@ -32,6 +34,14 @@ async def get_api() -> dict:
 async def get_geolocate() -> dict:
     result = gmaps.get_current_locate()
     return result["location"]
+
+
+@app.get("/place/{photo_ref}")
+async def get_place_photo(photo_ref: str) -> dict:
+    image_row = gmaps.get_place_photo(photo_ref)
+    image = BytesIO(b''.join(image_row))
+    image.seek(0)
+    return {"photo": StreamingResponse(image.read(), media_type="image/jpeg")}
 
 
 @app.get("/places/nearby")

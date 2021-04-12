@@ -149,4 +149,7 @@ if __name__ == '__main__':
     gmaps = GoogleMap()
 
     # places = gmaps.search_nearby()
-    print(gmaps.get_place_detail("ChIJpzB3HgrkGGARsbyOD_WqzmY"))
+    place = gmaps.get_place_detail("ChIJpzB3HgrkGGARsbyOD_WqzmY")
+    photo = gmaps.get_place_photo(place["photos"][0]["photo_reference"])
+    from io import BytesIO
+    print(BytesIO(b''.join(photo)))

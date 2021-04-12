@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import Avatar from '@material-ui/core/Avatar'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
-import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
+import ToolTip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import Rating from '@material-ui/lab/Rating'
 import { red } from '@material-ui/core/colors'
@@ -75,9 +76,11 @@ function PlaceCard({ place }) {
       </CardContent>
       <CardActions disableSpacing>
         <Rating name="place-rate" value={3} readOnly />
-        <IconButton className={classes.map}>
-          <MapIcon />
-        </IconButton>
+        <ToolTip title="Open GoogleMap">
+          <IconButton className={classes.map}>
+            <MapIcon />
+          </IconButton>
+        </ToolTip>
       </CardActions>
     </Card>
   )
