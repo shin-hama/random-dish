@@ -112,10 +112,13 @@ class GoogleMap:
         if place["status"] != "OK":
             return {}
 
-        print(place)
-        photos = place["result"]["photos"]
-        photos = [self.get_place_photos(photo["photo_reference"])
-                  for photo in photos]
+        # There are no "photos" key if the place has no photo.
+        photos = place["result"].get("photos", None)
+        if photos:
+            photos = [self.get_place_photos(photo["photo_reference"])
+                      for photo in photos]
+        else:
+            place["result"]["photos"] = "noImage.png"
 
         return place["result"]
 

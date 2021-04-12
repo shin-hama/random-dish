@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles()
-  const [button, setButton] = React.useState('Enjoy Your Dish!')
   const [apiKey, setApiKey] = React.useState({ apikey: '' })
   const [places, setPlaces] = React.useState({ results: [] })
   const [center, setCenter] = React.useState({
@@ -49,11 +48,10 @@ function App() {
 
   const getTest = () => {
     axios
-      .get(`http://127.0.01:8000/search_nearby`)
+      .get(`http://127.0.01:8000/search/nearby`)
       .then((response) => {
         console.log(response.data)
         setPlaces(response.data)
-        setButton('retry')
       })
       .catch(() => {
         console.log('fail to use google map api')
@@ -62,7 +60,7 @@ function App() {
 
   const getApi = () => {
     axios
-      .get('http://127.0.0.1:8000/api-key')
+      .get('http://127.0.0.1:8000/apikey')
       .then((response) => {
         setApiKey(response.data)
       })
@@ -74,19 +72,17 @@ function App() {
   React.useEffect(() => {}, [])
 
   const getCurrentPosition = () => {
-    // 精度があまり高くないので、要検討
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
+    axios
+      .get('http://127.0.0.1:8000/geolocate')
+      .then((response) => {
         setCenter({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
+          lat: response.data.lat,
+          lng: response.data.lng,
         })
-        console.log(position.coords)
-      },
-      (err) => {
-        console.log(err)
-      }
-    )
+      })
+      .catch(() => {
+        console.log('error')
+      })
   }
 
   return (
@@ -125,7 +121,7 @@ function App() {
                 color="primary"
                 onClick={onClick}
                 className={classes.mainButton}>
-                {button}
+                {apiKey.apikey ? 'retry' : 'Enjoy your dish'}
               </Button>
             </Grid>
           </Grid>
