@@ -112,22 +112,24 @@ class GoogleMap:
         if place["status"] != "OK":
             return {}
 
-        # There are no "photos" key if the place has no photo.
-        photos = place["result"].get("photos", None)
-        if photos:
-            photos = [self.get_place_photos(photo["photo_reference"])
-                      for photo in photos]
-        else:
-            place["result"]["photos"] = "noImage.png"
+        # # There are no "photos" key if the place has no photo.
+        # photos = place["result"].get("photos", None)
+        # if photos:
+        #     place["result"]["photos"] = [
+        #         self.get_place_photos(photo["photo_reference"])
+        #         for photo in photos
+        #     ]
+        # else:
+        #     place["result"]["photos"] = "noImage.png"
 
         return place["result"]
 
-    def get_place_photos(self, photo_ref: str) -> Iterator:
+    def get_place_photo(self, photo_ref: str) -> Iterator:
         """ Get photo image chunk from photo reference of google map api.
 
         ex)
         place = googlemaps.Client(key=apikey).place(place_id)
-        photos = self.get_place_photos(place["result"]["photos"]["reference"])
+        photos = self.get_place_photo(place["result"]["photos"]["reference"])
 
         Parameter
         ---------
