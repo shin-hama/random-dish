@@ -34,7 +34,7 @@ async def get_geolocate() -> dict:
     return result["location"]
 
 
-@app.get("/search/nearby")
+@app.get("/places/nearby")
 async def get_search_nearby_result():
     result = gmaps.search_nearby()
 

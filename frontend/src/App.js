@@ -48,7 +48,7 @@ function App() {
 
   const getTest = () => {
     axios
-      .get(`http://127.0.01:8000/search/nearby`)
+      .get(`http://127.0.01:8000/places/nearby`)
       .then((response) => {
         console.log(response.data)
         setPlaces(response.data)
