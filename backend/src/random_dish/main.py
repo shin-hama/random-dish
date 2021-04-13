@@ -1,3 +1,4 @@
+import base64
 from io import BytesIO
 import random
 
@@ -37,14 +38,13 @@ async def get_geolocate() -> dict:
 
 
 @app.get("/place/{photo_ref}")
-async def get_place_photo(photo_ref: str) -> dict:
+async def get_place_photo(photo_ref: str):
     image_row = gmaps.get_place_photo(photo_ref)
-    image = BytesIO(b''.join(image_row))
-    image.seek(0)
-    return {"photo": StreamingResponse(image.read(), media_type="image/jpeg")}
+    image_url = base64.b64encode(b''.join(image_row)).decode()
+    return {"image": f"data:image/jpeg;base64,{image_url}"}
 
 
-@app.get("/places/nearby")
+@ app.get("/places/nearby")
 async def get_search_nearby_result():
     result = gmaps.search_nearby()
 

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles'
 import Avatar from '@material-ui/core/Avatar'
 import Card from '@material-ui/core/Card'
@@ -22,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(4),
   },
   media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
+    paddingLeft: '5%',
+    paddingRight: '5%',
   },
   map: {
     marginLeft: 'auto',
@@ -50,7 +51,24 @@ PlaceCards.propTypes = {
 
 function PlaceCard({ place }) {
   const classes = useStyles()
+  const [photo, setPhoto] = React.useState('')
   console.log(place)
+
+  const GetPlacePhoto = (ref) => {
+    axios
+      .get(`http://127.0.0.1:8000/place/${ref}`)
+      .then((response) => {
+        console.log(response)
+        setPhoto(response.data.image)
+      })
+      .catch(() => {
+        console.log('error')
+      })
+  }
+
+  React.useEffect(() => {
+    GetPlacePhoto(place.photos[0].photo_reference)
+  }, [])
 
   return (
     <Card className={classes.card} align="center">
@@ -68,9 +86,14 @@ function PlaceCard({ place }) {
         title={place.name}
         subheader="test"
       />
-      <CardMedia className={classes.media} />
+      <CardMedia
+        className={classes.media}
+        component="img"
+        src={photo}
+        title={place.name}
+      />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="P">
+        <Typography variant="body2" color="textSecondary" component="p">
           This is sample body
         </Typography>
       </CardContent>

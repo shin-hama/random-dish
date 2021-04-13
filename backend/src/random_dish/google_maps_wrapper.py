@@ -151,5 +151,8 @@ if __name__ == '__main__':
     # places = gmaps.search_nearby()
     place = gmaps.get_place_detail("ChIJpzB3HgrkGGARsbyOD_WqzmY")
     photo = gmaps.get_place_photo(place["photos"][0]["photo_reference"])
-    from io import BytesIO
-    print(BytesIO(b''.join(photo)))
+
+    with open("image.png", mode="wb") as f:
+        for chunk in photo:
+            if chunk:
+                f.write(chunk)
