@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(4),
   },
   media: {
+    height: '30vh',
     paddingLeft: '5%',
     paddingRight: '5%',
   },
@@ -98,7 +99,7 @@ function PlaceCard({ place }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Rating name="place-rate" value={3} readOnly />
+        <Rating name="place-rate" value={place.rating} readOnly />
         <ToolTip title="Open GoogleMap">
           <IconButton className={classes.map}>
             <MapIcon />

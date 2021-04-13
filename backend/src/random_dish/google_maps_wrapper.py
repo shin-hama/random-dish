@@ -104,7 +104,8 @@ class GoogleMap:
             "photo",
             "type",
             "url",
-            "vicinity"
+            "vicinity",
+            "rating",
         ]
         # Remove duplicate field from both input fields and default fields.
         fields = list(set([*fields, *default_field]))
