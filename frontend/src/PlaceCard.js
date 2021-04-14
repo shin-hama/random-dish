@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles'
-import Avatar from '@material-ui/core/Avatar'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
@@ -19,13 +18,14 @@ import Grid from '@material-ui/core/Grid'
 
 const useStyles = makeStyles((theme) => ({
   card: {
+    width: 'fixed',
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(4),
   },
   media: {
-    height: '30vh',
-    paddingLeft: '5%',
-    paddingRight: '5%',
+    width: '100%',
+    height: 300,
+    objectFit: 'cover',
   },
   map: {
     marginLeft: 'auto',
@@ -39,7 +39,7 @@ function PlaceCards({ places }) {
   return (
     <Grid container spacing={3} alignItems="center" justify="center">
       {places.map((item, i) => (
-        <Grid key={i} item xs={4}>
+        <Grid key={i} item xs={6} md={4} lg={4}>
           <PlaceCard place={item} />
         </Grid>
       ))}
@@ -74,18 +74,13 @@ function PlaceCard({ place }) {
   return (
     <Card className={classes.card} align="center">
       <CardHeader
-        avatar={
-          <Avatar aria-lavel="recipe" className={classes.avatar}>
-            R
-          </Avatar>
-        }
         action={
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
         }
+        titleTypographyProps={{ variant: 'h6' }}
         title={place.name}
-        subheader="test"
       />
       <CardMedia
         className={classes.media}
