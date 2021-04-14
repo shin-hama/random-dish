@@ -7,6 +7,7 @@ import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
+import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import ToolTip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
@@ -18,14 +19,13 @@ import Grid from '@material-ui/core/Grid'
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    width: 'fixed',
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(4),
   },
   media: {
     width: '100%',
     height: 300,
-    objectFit: 'cover',
+    objectFit: 'contain',
   },
   map: {
     marginLeft: 'auto',
@@ -40,7 +40,7 @@ function PlaceCards({ places }) {
     <Grid container spacing={3} alignItems="center" justify="center">
       {places.map((item, i) => (
         <Grid key={i} item xs={6} md={4} lg={4}>
-          <PlaceCard place={item} />
+          <PlaceCard place={item} id={i} />
         </Grid>
       ))}
     </Grid>
@@ -50,7 +50,7 @@ PlaceCards.propTypes = {
   places: PropTypes.array,
 }
 
-function PlaceCard({ place }) {
+function PlaceCard({ place, id }) {
   const classes = useStyles()
   const [photo, setPhoto] = React.useState('')
   console.log(place)
@@ -74,6 +74,7 @@ function PlaceCard({ place }) {
   return (
     <Card className={classes.card} align="center">
       <CardHeader
+        avatar={<Avatar className={classes.avatar}>{id}</Avatar>}
         action={
           <IconButton aria-label="share">
             <ShareIcon />
@@ -106,6 +107,7 @@ function PlaceCard({ place }) {
 }
 PlaceCard.propTypes = {
   place: PropTypes.object.isRequired,
+  id: PropTypes.number.isRequired,
 }
 
 export default PlaceCards
