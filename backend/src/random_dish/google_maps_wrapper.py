@@ -104,7 +104,8 @@ class GoogleMap:
             "photo",
             "type",
             "url",
-            "vicinity"
+            "vicinity",
+            "rating",
         ]
         # Remove duplicate field from both input fields and default fields.
         fields = list(set([*fields, *default_field]))
@@ -112,18 +113,24 @@ class GoogleMap:
         if place["status"] != "OK":
             return {}
 
-        photos = place["result"]["photos"]
-        photos = [self.get_place_photos(photo["photo_reference"])
-                  for photo in photos]
+        # # There are no "photos" key if the place has no photo.
+        # photos = place["result"].get("photos", None)
+        # if photos:
+        #     place["result"]["photos"] = [
+        #         self.get_place_photos(photo["photo_reference"])
+        #         for photo in photos
+        #     ]
+        # else:
+        #     place["result"]["photos"] = "noImage.png"
 
         return place["result"]
 
-    def get_place_photos(self, photo_ref: str) -> Iterator:
+    def get_place_photo(self, photo_ref: str) -> Iterator:
         """ Get photo image chunk from photo reference of google map api.
 
         ex)
         place = googlemaps.Client(key=apikey).place(place_id)
-        photos = self.get_place_photos(place["result"]["photos"]["reference"])
+        photos = self.get_place_photo(place["result"]["photos"]["reference"])
 
         Parameter
         ---------
@@ -143,4 +150,10 @@ if __name__ == '__main__':
     gmaps = GoogleMap()
 
     # places = gmaps.search_nearby()
-    print(gmaps.get_place_detail("ChIJpzB3HgrkGGARsbyOD_WqzmY"))
+    place = gmaps.get_place_detail("ChIJpzB3HgrkGGARsbyOD_WqzmY")
+    photo = gmaps.get_place_photo(place["photos"][0]["photo_reference"])
+
+    with open("image.png", mode="wb") as f:
+        for chunk in photo:
+            if chunk:
+                f.write(chunk)
