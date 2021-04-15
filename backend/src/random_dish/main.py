@@ -1,10 +1,7 @@
-import base64
-from io import BytesIO
 import random
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
 
 from random_dish.google_maps_wrapper import GoogleMap
 
@@ -37,20 +34,20 @@ async def get_geolocate() -> dict:
     return result["location"]
 
 
-@app.get("/place/{photo_ref}")
-async def get_place_photo(photo_ref: str):
-    image_row = gmaps.get_place_photo(photo_ref)
-    image_url = base64.b64encode(b''.join(image_row)).decode()
-    return {"image": f"data:image/jpeg;base64,{image_url}"}
-
-
 @ app.get("/places/nearby")
 async def get_search_nearby_result():
     result = gmaps.search_nearby()
 
     selected_places = random.sample(result, 2)
 
-    places = [gmaps.get_place_detail(place["place_id"])
-              for place in selected_places]
+    places = []
+    for place in selected_places:
+        place_detail = gmaps.get_place_detail(place["place_id"])
+        place_detail["photos"] = [
+            "data:image/jpeg;base64,"
+            f"{gmaps.get_place_photo(photo['photo_reference'])}"
+            for photo in place_detail["photos"][0:3]
+        ]
+        places.append(place_detail)
 
     return {"results": places}

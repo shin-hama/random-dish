@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import axios from 'axios'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
@@ -59,40 +58,14 @@ function PlaceCard({ place, id }) {
   const theme = useTheme()
   const maxSteps = place.photos.length >= 3 ? 3 : place.photos.length
   const [activeStep, setActiveStep] = React.useState(0)
-  const [photos, setPhotos] = React.useState([])
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
-    console.log(activeStep)
-    console.log(photos)
   }
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
-
-  console.log(place)
-
-  const GetPlacePhoto = () => {
-    const tempPhotos = []
-    place.photos.slice(0, maxSteps).map((photo) =>
-      axios
-        .get(`http://127.0.0.1:8000/place/${photo.photo_reference}`)
-        .then((response) => {
-          console.log(photos)
-          tempPhotos.push(response.data.image)
-        })
-        .catch(() => {
-          console.log('error')
-        })
-    )
-
-    setPhotos(tempPhotos)
-  }
-
-  React.useEffect(() => {
-    GetPlacePhoto()
-  }, [])
 
   return (
     <Card className={classes.card} align="center">
@@ -109,13 +82,13 @@ function PlaceCard({ place, id }) {
       <CardMedia
         className={classes.media}
         component="img"
-        src={photos[activeStep]}
+        src={place.photos[activeStep]}
         title={place.name}
       />
       <MobileStepper
         steps={maxSteps}
         position="static"
-        variant="text"
+        variant="dots"
         activeStep={activeStep}
         nextButton={
           <Button

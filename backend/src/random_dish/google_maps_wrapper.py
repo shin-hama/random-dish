@@ -1,3 +1,4 @@
+import base64
 from dotenv import load_dotenv
 import os
 from pathlib import Path
@@ -125,7 +126,7 @@ class GoogleMap:
 
         return place["result"]
 
-    def get_place_photo(self, photo_ref: str) -> Iterator:
+    def get_place_photo(self, photo_ref: str) -> str:
         """ Get photo image chunk from photo reference of google map api.
 
         ex)
@@ -139,10 +140,11 @@ class GoogleMap:
 
         Return
         ------
-        photo : Iterator
-            Iterator containing raw image data
+        photo : str
+            The string of image date encoded to base64
         """
-        photo = self.gmaps.places_photo(photo_ref, max_width=600)
+        photo_bin = self.gmaps.places_photo(photo_ref, max_width=600)
+        photo = base64.b64encode(b''.join(photo_bin)).decode()
         return photo
 
 

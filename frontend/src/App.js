@@ -43,10 +43,10 @@ function App() {
       getApi()
       getCurrentPosition()
     }
-    getTest()
+    getPlaces()
   }
 
-  const getTest = () => {
+  const getPlaces = () => {
     axios
       .get(`http://127.0.01:8000/places/nearby`)
       .then((response) => {
