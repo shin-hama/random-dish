@@ -63,7 +63,6 @@ class GoogleMap:
             "radius": 10000,
             "language": "ja",
         }
-        # We can get 20 places at one time.
         for i in range(1):
             places = self.gmaps.places_nearby(**attr)
             if places["status"] != "OK":
@@ -74,10 +73,10 @@ class GoogleMap:
                 attr = {
                     "page_token": places["next_page_token"]
                 }
-                # sleepを入れないとエラーが帰ってくる(Google側の仕様)
+                # 連続実行するとエラー(Google側の仕様)
                 time.sleep(2)
             except KeyError:
-                # 最大で60件まで next_page_token が帰ってくる
+                # 最大で60件まで それ以上検索すると next_page_token がなくなる
                 break
 
         return results
@@ -114,20 +113,11 @@ class GoogleMap:
         if place["status"] != "OK":
             return {}
 
-        # # There are no "photos" key if the place has no photo.
-        # photos = place["result"].get("photos", None)
-        # if photos:
-        #     place["result"]["photos"] = [
-        #         self.get_place_photos(photo["photo_reference"])
-        #         for photo in photos
-        #     ]
-        # else:
-        #     place["result"]["photos"] = "noImage.png"
-
         return place["result"]
 
     def get_place_photo(self, photo_ref: str) -> str:
         """ Get photo image chunk from photo reference of google map api.
+        The place photo will be converted to base64 to display on browser.
 
         ex)
         place = googlemaps.Client(key=apikey).place(place_id)
@@ -143,7 +133,7 @@ class GoogleMap:
         photo : str
             The string of image date encoded to base64
         """
-        photo_bin = self.gmaps.places_photo(photo_ref, max_width=600)
+        photo_bin = self.gmaps.places_photo(photo_ref, max_width=1000)
         photo = base64.b64encode(b''.join(photo_bin)).decode()
         return photo
 
@@ -154,8 +144,3 @@ if __name__ == '__main__':
     # places = gmaps.search_nearby()
     place = gmaps.get_place_detail("ChIJpzB3HgrkGGARsbyOD_WqzmY")
     photo = gmaps.get_place_photo(place["photos"][0]["photo_reference"])
-
-    with open("image.png", mode="wb") as f:
-        for chunk in photo:
-            if chunk:
-                f.write(chunk)
