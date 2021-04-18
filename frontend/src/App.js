@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import CssBaseLine from '@material-ui/core/CssBaseline'
@@ -11,10 +12,24 @@ import Copyright from './Footer'
 import Header from './Header'
 import MyMap from './Map'
 import PlaceCards from './PlaceCard'
+import RightDrawer from './RightDrawer'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginRight: 0,
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginRight: theme.mixins.drawer.width,
   },
   card: {
     marginTop: theme.spacing(4),
@@ -32,11 +47,16 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles()
   const [apiKey, setApiKey] = React.useState({ apikey: '' })
+  const [open, setOpen] = React.useState(false)
   const [places, setPlaces] = React.useState({ results: [] })
   const [center, setCenter] = React.useState({
     lat: 0,
     lng: 0,
   })
+
+  const handleDrawerOpen = () => {
+    setOpen(true)
+  }
 
   const onClick = () => {
     if (!apiKey.apikey) {
@@ -88,8 +108,12 @@ function App() {
   return (
     <div>
       <CssBaseLine />
-      <Header />
-      <main className={classes.content}>
+      <Header menuIconClicked={handleDrawerOpen} />
+      <RightDrawer setOpen={setOpen} open={open} />
+      <main
+        className={clsx(classes.content, {
+          [classes.contentShift]: open,
+        })}>
         <Container>
           <Typography
             component="h1"

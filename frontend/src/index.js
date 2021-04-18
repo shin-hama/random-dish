@@ -9,8 +9,10 @@ const customTheme = createMuiTheme({
     toolbar: {
       minHeight: 48,
     },
+    drawer: {
+      width: 240,
+    },
   },
-  // Set TEL brand color: cyan and green
   palette: {
     primary: {
       main: '#00A9E0',
