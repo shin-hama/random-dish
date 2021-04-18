@@ -9,7 +9,7 @@ function Copyright() {
       {new Date().getFullYear()}
       {'.'}
       <Link color="inherit" href="https://material-ui.com/">
-        Shinichiro Hamada
+        coppla
       </Link>{' '}
     </Typography>
   )
