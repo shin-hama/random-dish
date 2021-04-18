@@ -6,6 +6,8 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/icons/Menu'
 
+import RightDrawer from './RightDrawer'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -28,18 +30,26 @@ const useStyles = makeStyles((theme) => ({
 
 function Header() {
   const classes = useStyles()
+  const [open, setOpen] = React.useState(false)
+
+  const handleDrawerOpen = () => {
+    setOpen(true)
+  }
 
   return (
-    <AppBar position="relative">
-      <Toolbar>
-        <Typography variant="h6" className={classes.title} noWrap>
-          Random Dish
-        </Typography>
-        <IconButton color="inherit" aria-label="menu">
-          <MenuIcon />
-        </IconButton>
-      </Toolbar>
-    </AppBar>
+    <>
+      <AppBar position="relative">
+        <Toolbar>
+          <Typography variant="h6" className={classes.title} noWrap>
+            Random Dish
+          </Typography>
+          <IconButton color="inherit" aria-label="menu">
+            <MenuIcon onClick={handleDrawerOpen} />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <RightDrawer setOpen={setOpen} open={open} />
+    </>
   )
 }
 
