@@ -41,6 +41,15 @@ const customTheme = createMuiTheme({
     MuiList: {
       dense: true,
     },
+    MuiCheckbox: {
+      color: 'primary',
+    },
+    MuiRadio: {
+      color: 'primary',
+    },
+    MuiSwitch: {
+      color: 'primary',
+    },
   },
   typography: {
     button: {

@@ -151,7 +151,10 @@ function App() {
           </Grid>
         </Container>
       </main>
-      <footer className={classes.footer}>
+      <footer
+        className={clsx(classes.footer, classes.content, {
+          [classes.contentShift]: open,
+        })}>
         <Copyright />
       </footer>
     </div>

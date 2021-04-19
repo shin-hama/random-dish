@@ -9,10 +9,14 @@ import IconButton from '@material-ui/core/IconButton'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import MailIcon from '@material-ui/icons/Mail'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import DirectionsCarIcon from '@material-ui/icons/DirectionsCar'
+import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk'
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -28,7 +32,38 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
     justifyContent: 'flex-start',
   },
+  selector: {
+    minWidth: 200,
+  },
 }))
+
+const SearchRange = () => {
+  const classes = useStyles()
+  const [range, setRange] = React.useState(5)
+
+  const handleChange = (event) => {
+    setRange(event.target.value)
+  }
+
+  return (
+    <FormControl className={classes.selector}>
+      <InputLabel shrink id="select-range-label">
+        Within
+      </InputLabel>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        value={range}
+        onChange={handleChange}>
+        {[3, 5, 10, 15].map((time, i) => (
+          <MenuItem key={i} value={time}>
+            ~{time} min
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  )
+}
 
 function RightDrawer({ setOpen, open }) {
   const classes = useStyles()
@@ -60,25 +95,18 @@ function RightDrawer({ setOpen, open }) {
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem>
+            <ListItemText primary="Search Area" />
+            <ListItemSecondaryAction>
+              <IconButton edge="end" aria-label="comments">
+                <DirectionsWalkIcon />
+                <DirectionsCarIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+          <ListItem>
+            <SearchRange></SearchRange>
+          </ListItem>
         </List>
       </Drawer>
     </>
