@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Checkbox from '@material-ui/core/Checkbox'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Drawer from '@material-ui/core/Drawer'
@@ -15,8 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import CloseIcon from '@material-ui/icons/Close'
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar'
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk'
 import { blue, grey } from '@material-ui/core/colors'
@@ -26,14 +25,15 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.drawer,
     flexShrink: 0,
   },
-  drawerPaper: { ...theme.mixins.drawer },
+  drawerPaper: {
+    ...theme.mixins.drawer,
+  },
   drawerHeader: {
     display: 'flex',
-    alignItems: 'center',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
   },
   selector: {
     minWidth: 200,
@@ -97,7 +97,6 @@ const TransportationIcon = () => {
 
 function RightDrawer({ open, setOpen }) {
   const classes = useStyles()
-  const theme = useTheme()
   const [openNow, setOpenNow] = React.useState(true)
 
   const handleDrawerClose = () => {
@@ -121,11 +120,7 @@ function RightDrawer({ open, setOpen }) {
         }}>
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
+            <CloseIcon />
           </IconButton>
         </div>
         <Divider />
