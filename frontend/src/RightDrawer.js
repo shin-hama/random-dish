@@ -1,22 +1,25 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import Drawer from '@material-ui/core/Drawer'
+import Checkbox from '@material-ui/core/Checkbox'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import List from '@material-ui/core/List'
+import Drawer from '@material-ui/core/Drawer'
 import Divider from '@material-ui/core/Divider'
+import FormControl from '@material-ui/core/FormControl'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import IconButton from '@material-ui/core/IconButton'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import InputLabel from '@material-ui/core/InputLabel'
+import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar'
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk'
+import { blue, grey } from '@material-ui/core/colors'
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -35,9 +38,16 @@ const useStyles = makeStyles((theme) => ({
   selector: {
     minWidth: 200,
   },
+  enable: {
+    color: blue[600],
+  },
+  disable: {
+    color: grey[400],
+    fontSize: 'small',
+  },
 }))
 
-const SearchRange = () => {
+const SearchRangeForm = () => {
   const classes = useStyles()
   const [range, setRange] = React.useState(5)
 
@@ -65,12 +75,37 @@ const SearchRange = () => {
   )
 }
 
-function RightDrawer({ setOpen, open }) {
+const TransportationIcon = () => {
+  const classes = useStyles()
+  const [byWalk, setByWalk] = React.useState(true)
+
+  const handleTransportation = () => {
+    setByWalk(!byWalk)
+  }
+
+  return (
+    <IconButton edge="end" aria-label="comments" onClick={handleTransportation}>
+      <DirectionsWalkIcon
+        className={byWalk ? classes.enable : classes.disable}
+      />
+      <DirectionsCarIcon
+        className={byWalk ? classes.disable : classes.enable}
+      />
+    </IconButton>
+  )
+}
+
+function RightDrawer({ open, setOpen }) {
   const classes = useStyles()
   const theme = useTheme()
+  const [openNow, setOpenNow] = React.useState(true)
 
   const handleDrawerClose = () => {
     setOpen(false)
+  }
+
+  const handleOpenNow = () => {
+    setOpenNow(!openNow)
   }
 
   return (
@@ -98,14 +133,20 @@ function RightDrawer({ setOpen, open }) {
           <ListItem>
             <ListItemText primary="Search Area" />
             <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="comments">
-                <DirectionsWalkIcon />
-                <DirectionsCarIcon />
-              </IconButton>
+              <TransportationIcon />
             </ListItemSecondaryAction>
           </ListItem>
           <ListItem>
-            <SearchRange></SearchRange>
+            <SearchRangeForm />
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem>
+            <FormControlLabel
+              control={<Checkbox checked={openNow} onChange={handleOpenNow} />}
+              label="Open Now"
+            />
           </ListItem>
         </List>
       </Drawer>
@@ -113,8 +154,8 @@ function RightDrawer({ setOpen, open }) {
   )
 }
 RightDrawer.propTypes = {
-  setOpen: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  setOpen: PropTypes.func.isRequired,
 }
 
 export default RightDrawer
