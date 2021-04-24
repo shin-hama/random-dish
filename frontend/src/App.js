@@ -49,7 +49,7 @@ function App() {
   const [apiKey, setApiKey] = React.useState({ apikey: '' })
   const [open, setOpen] = React.useState(false)
   const [places, setPlaces] = React.useState({ results: [] })
-  const [center, setCenter] = React.useState({
+  const [location, setLocation] = React.useState({
     lat: 0,
     lng: 0,
   })
@@ -67,8 +67,9 @@ function App() {
   }
 
   const getPlaces = () => {
+    const queries = `lat=${location.lat}&lng=${location.lng}`
     axios
-      .get(`http://127.0.01:8000/places/nearby`)
+      .get(`http://127.0.01:8000/places/nearby?${queries}`)
       .then((response) => {
         console.log(response.data)
         setPlaces(response.data)
@@ -95,7 +96,7 @@ function App() {
     axios
       .get('http://127.0.0.1:8000/geolocate')
       .then((response) => {
-        setCenter({
+        setLocation({
           lat: response.data.lat,
           lng: response.data.lng,
         })
@@ -134,7 +135,7 @@ function App() {
           <Grid container justify="center">
             <MyMap
               apiKey={apiKey.apikey}
-              center={center}
+              center={location}
               places={places.results}
             />
           </Grid>
