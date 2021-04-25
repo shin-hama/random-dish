@@ -47,13 +47,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const SearchRangeForm = () => {
+const SearchRangeForm = ({ range, onChange }) => {
   const classes = useStyles()
-  const [range, setRange] = React.useState(5)
-
-  const handleChange = (event) => {
-    setRange(event.target.value)
-  }
 
   return (
     <FormControl className={classes.selector}>
@@ -64,9 +59,9 @@ const SearchRangeForm = () => {
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={range}
-        onChange={handleChange}>
-        {[3, 5, 10, 15].map((time, i) => (
-          <MenuItem key={i} value={time}>
+        onChange={onChange}>
+        {[3, 5, 10, 15].map((time) => (
+          <MenuItem key={time} value={time}>
             ~{time} min
           </MenuItem>
         ))}
@@ -74,15 +69,13 @@ const SearchRangeForm = () => {
     </FormControl>
   )
 }
+SearchRangeForm.propTypes = {
+  range: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
+}
 
-const TransportationIcon = () => {
+const TransportationIcon = ({ byWalk, handleTransportation }) => {
   const classes = useStyles()
-  const [byWalk, setByWalk] = React.useState(true)
-
-  const handleTransportation = () => {
-    setByWalk(!byWalk)
-  }
-
   return (
     <IconButton edge="end" aria-label="comments" onClick={handleTransportation}>
       <DirectionsWalkIcon
@@ -94,18 +87,39 @@ const TransportationIcon = () => {
     </IconButton>
   )
 }
+TransportationIcon.propTypes = {
+  byWalk: PropTypes.bool.isRequired,
+  handleTransportation: PropTypes.func.isRequired,
+}
 
-function RightDrawer({ open, setOpen }) {
+const calcMaxDistance = (maxTime, byWalk) => {
+  const meterPerMin = byWalk ? 80 : 400
+  return maxTime * meterPerMin
+}
+
+function RightDrawer({
+  open,
+  handleDrawerClose,
+  updateRadius,
+  openNow,
+  openNowChanged,
+}) {
   const classes = useStyles()
-  const [openNow, setOpenNow] = React.useState(true)
+  const [range, setRange] = React.useState(5)
+  const [byWalk, setByWalk] = React.useState(true)
 
-  const handleDrawerClose = () => {
-    setOpen(false)
+  const handleTransportation = () => {
+    setByWalk(!byWalk)
   }
 
-  const handleOpenNow = () => {
-    setOpenNow(!openNow)
+  const searchRangeChanged = (event) => {
+    setRange(event.target.value)
+    updateRadius(calcMaxDistance(event.targe.value, byWalk))
   }
+
+  React.useEffect(() => {
+    updateRadius(calcMaxDistance(range, byWalk))
+  })
 
   return (
     <>
@@ -128,18 +142,21 @@ function RightDrawer({ open, setOpen }) {
           <ListItem>
             <ListItemText primary="Search Area" />
             <ListItemSecondaryAction>
-              <TransportationIcon />
+              <TransportationIcon
+                byWalk={byWalk}
+                handleTransportation={handleTransportation}
+              />
             </ListItemSecondaryAction>
           </ListItem>
           <ListItem>
-            <SearchRangeForm />
+            <SearchRangeForm range={range} onChange={searchRangeChanged} />
           </ListItem>
         </List>
         <Divider />
         <List>
           <ListItem>
             <FormControlLabel
-              control={<Checkbox checked={openNow} onChange={handleOpenNow} />}
+              control={<Checkbox checked={openNow} onChange={openNowChanged} />}
               label="Open Now"
             />
           </ListItem>
@@ -150,7 +167,10 @@ function RightDrawer({ open, setOpen }) {
 }
 RightDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
-  setOpen: PropTypes.func.isRequired,
+  handleDrawerClose: PropTypes.func.isRequired,
+  updateRadius: PropTypes.func.isRequired,
+  openNow: PropTypes.bool.isRequired,
+  openNowChanged: PropTypes.func.isRequired,
 }
 
 export default RightDrawer

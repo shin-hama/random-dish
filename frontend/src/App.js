@@ -2,12 +2,12 @@ import React from 'react'
 import axios from 'axios'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
+import Collapse from '@material-ui/core/Collapse'
 import Container from '@material-ui/core/Container'
 import CssBaseLine from '@material-ui/core/CssBaseline'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-
 import Copyright from './Footer'
 import Header from './Header'
 import MyMap from './Map'
@@ -47,27 +47,40 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles()
   const [apiKey, setApiKey] = React.useState({ apikey: '' })
-  const [open, setOpen] = React.useState(false)
+  const [openDrawer, setOpenDrawer] = React.useState(false)
+  const [openMap, setOpenMap] = React.useState(false)
   const [places, setPlaces] = React.useState({ results: [] })
+
   const [location, setLocation] = React.useState({
     lat: 0,
     lng: 0,
   })
+  const [openNow, setOpenNow] = React.useState(true)
+  const [radius, setRadius] = React.useState(0)
 
   const handleDrawerOpen = () => {
-    setOpen(true)
+    setOpenDrawer(true)
+  }
+
+  const handleDrawerClose = () => {
+    setOpenDrawer(false)
+  }
+
+  const openNowChanged = () => {
+    setOpenNow(!openNow)
+  }
+
+  const updateRadius = (value) => {
+    setRadius(value)
   }
 
   const onClick = () => {
-    if (!apiKey.apikey) {
-      getApi()
-      getCurrentPosition()
-    }
     getPlaces()
+    setOpenMap(true)
   }
 
   const getPlaces = () => {
-    const queries = `lat=${location.lat}&lng=${location.lng}`
+    const queries = `lat=${location.lat}&lng=${location.lng}&radius=${radius}&open_now=${openNow}`
     axios
       .get(`http://127.0.01:8000/places/nearby?${queries}`)
       .then((response) => {
@@ -90,7 +103,10 @@ function App() {
       })
   }
 
-  React.useEffect(() => {}, [])
+  React.useEffect(() => {
+    getApi()
+    getCurrentPosition()
+  }, [])
 
   const getCurrentPosition = () => {
     axios
@@ -110,10 +126,16 @@ function App() {
     <div>
       <CssBaseLine />
       <Header menuIconClicked={handleDrawerOpen} />
-      <RightDrawer setOpen={setOpen} open={open} />
+      <RightDrawer
+        open={openDrawer}
+        handleDrawerClose={handleDrawerClose}
+        updateRadius={updateRadius}
+        openNow={openNow}
+        openNowChanged={openNowChanged}
+      />
       <main
         className={clsx(classes.content, {
-          [classes.contentShift]: open,
+          [classes.contentShift]: openDrawer,
         })}>
         <Container>
           <Typography
@@ -131,14 +153,16 @@ function App() {
             paragraph>
             What will you eat?
           </Typography>{' '}
-          <PlaceCards places={places.results} />
-          <Grid container justify="center">
-            <MyMap
-              apiKey={apiKey.apikey}
-              center={location}
-              places={places.results}
-            />
-          </Grid>
+          <Collapse in={openMap} timeout="auto">
+            <PlaceCards places={places.results} />
+            <Grid container justify="center">
+              <MyMap
+                apiKey={apiKey.apikey}
+                center={location}
+                places={places.results}
+              />
+            </Grid>
+          </Collapse>
           <Grid container justify="center">
             <Grid item>
               <Button
@@ -154,7 +178,7 @@ function App() {
       </main>
       <footer
         className={clsx(classes.footer, classes.content, {
-          [classes.contentShift]: open,
+          [classes.contentShift]: openDrawer,
         })}>
         <Copyright />
       </footer>
