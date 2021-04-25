@@ -35,8 +35,15 @@ async def get_geolocate() -> dict:
 
 
 @ app.get("/places/nearby")
-async def get_search_nearby_result():
-    result = gmaps.search_nearby()
+async def get_search_nearby_result(
+        lat: float, lng: float, radius: int = 1000, open_now: bool = False
+):
+    fields = {
+        "location": tuple([lat, lng]),
+        "radius": radius,
+        "open_now": open_now
+    }
+    result = gmaps.search_nearby(fields)
 
     selected_places = random.sample(result, 2)
 

@@ -38,7 +38,7 @@ class GoogleMap:
         geolocate: dict = self.gmaps.geolocate()
         return geolocate
 
-    def search_nearby(self, location: Optional[tuple] = None) -> list[dict]:
+    def search_nearby(self, fields: dict) -> list[dict]:
         """ Search 60 places that are nearby specified location.
 
         Parameter
@@ -54,23 +54,23 @@ class GoogleMap:
         """
         results: list = []
 
-        if location is None:
+        print(fields)
+        if "location" not in fields.keys():
             geolocate: dict = self.get_current_locate()
-            location = geolocate["location"]
+            fields["location"] = geolocate["location"]
 
-        attr: dict = {
-            "location": location,
-            "radius": 10000,
-            "language": "ja",
-        }
+        if "radius" not in fields.keys():
+            fields["radius"] = 1000
+        print(fields)
+
         for i in range(1):
-            places = self.gmaps.places_nearby(**attr)
+            places = self.gmaps.places_nearby(**fields)
             if places["status"] != "OK":
                 continue
             results.extend(places["results"])
             try:
                 # Update attribute to get next 20 places.
-                attr = {
+                fields = {
                     "page_token": places["next_page_token"]
                 }
                 # 連続実行するとエラー(Google側の仕様)
