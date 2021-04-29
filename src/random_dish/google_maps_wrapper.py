@@ -1,5 +1,7 @@
 import base64
+from dotenv import load_dotenv
 import os
+from pathlib import Path
 import time
 
 import googlemaps
@@ -14,6 +16,9 @@ class GoogleMap:
     def get_apikey(cls) -> str:
         """ Get API_KEY that is set environment variant
         """
+        dotenv_path = Path(__file__).absolute().parents[2] / '.env'
+        if dotenv_path.exists():
+            load_dotenv(dotenv_path)
         try:
             apikey: str = os.environ["API_KEY"]
         except KeyError:
