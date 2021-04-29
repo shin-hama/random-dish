@@ -1,0 +1,9 @@
+build:
+  nodejs:
+    frontend: frontend.package.json
+  python:
+    backend: backend.poetry.toml
+
+run:
+  backend: cd backend & poetry run uvicorn src.random_dish.main:app
+  frontend: cd frontend & yarn start
