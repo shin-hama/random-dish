@@ -1,0 +1,15 @@
+{
+  "name": "random-dish",
+  "version": "1.0.0",
+  "description": "Choice restaulant at radnom.",
+  "main": "index.js",
+  "repository": "https://github.com/shin-hama/random-dish.git",
+  "author": "shin-hama <htysivista@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "react-scripts start",
+    "install": "yarn setup-frontend && yarn setup-backend",
+    "setup-frontend": "cd frontend && yarn install",
+    "setup-backend": "cd backend && poetry install"
+  }
+}
