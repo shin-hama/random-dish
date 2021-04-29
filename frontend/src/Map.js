@@ -7,7 +7,8 @@ const containerStyle = {
   height: '60vh',
 }
 
-function MyMap({ apiKey, center, places }) {
+function MyMap({ center, places }) {
+  const [apiKey, setApiKey] = React.useState('')
   const markerLabel = (label) => {
     return {
       color: 'white',
@@ -17,6 +18,11 @@ function MyMap({ apiKey, center, places }) {
       text: label,
     }
   }
+
+  React.useEffect(() => {
+    setApiKey(process.env.REACT_APP_API_KEY || '')
+    console.log(apiKey)
+  })
 
   return apiKey ? (
     <LoadScript googleMapsApiKey={apiKey}>
@@ -36,7 +42,6 @@ function MyMap({ apiKey, center, places }) {
   )
 }
 MyMap.propTypes = {
-  apiKey: PropTypes.string.isRequired,
   center: PropTypes.object.isRequired,
   places: PropTypes.array,
 }

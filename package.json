@@ -6,8 +6,12 @@
   "repository": "https://github.com/shin-hama/random-dish.git",
   "author": "shin-hama <htysivista@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "yarn": "1.x"
+  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "yarn start-frontend",
+    "start-frontend": "cd frontend && yarn start",
     "install": "yarn setup-frontend && yarn setup-backend",
     "setup-frontend": "cd frontend && yarn install",
     "setup-backend": "cd backend && poetry install"

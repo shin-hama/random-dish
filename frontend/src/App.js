@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles()
-  const [apiKey, setApiKey] = React.useState({ apikey: '' })
   const [openDrawer, setOpenDrawer] = React.useState(false)
   const [openMap, setOpenMap] = React.useState(false)
   const [places, setPlaces] = React.useState({ results: [] })
@@ -92,19 +91,7 @@ function App() {
       })
   }
 
-  const getApi = () => {
-    axios
-      .get('http://127.0.0.1:8000/apikey')
-      .then((response) => {
-        setApiKey(response.data)
-      })
-      .catch(() => {
-        console.log('error')
-      })
-  }
-
   React.useEffect(() => {
-    getApi()
     getCurrentPosition()
   }, [])
 
@@ -156,11 +143,7 @@ function App() {
           <Collapse in={openMap} timeout="auto">
             <PlaceCards places={places.results} />
             <Grid container justify="center">
-              <MyMap
-                apiKey={apiKey.apikey}
-                center={location}
-                places={places.results}
-              />
+              <MyMap center={location} places={places.results} />
             </Grid>
           </Collapse>
           <Grid container justify="center">
@@ -170,7 +153,7 @@ function App() {
                 color="primary"
                 onClick={onClick}
                 className={classes.mainButton}>
-                {apiKey.apikey ? 'retry' : 'Enjoy your dish'}
+                {openMap ? 'retry' : 'Enjoy your dish'}
               </Button>
             </Grid>
           </Grid>

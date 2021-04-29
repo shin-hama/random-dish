@@ -1,2 +1,2 @@
-backend: cd backend & uvicorn src.random_dish.main:app
-frontend: cd frontend & yarn start
+backend: cd backend & poetry run uvicorn src.random_dish.main:app
+frontend: yarn start
