@@ -4,7 +4,7 @@ version = "0.5.0"
 description = "File support for asyncio."
 category = "main"
 optional = false
-python-versions = "3.9.2"
+python-versions = "*"
 
 [[package]]
 name = "aniso8601"
