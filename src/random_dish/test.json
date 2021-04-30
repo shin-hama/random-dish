@@ -36,12 +36,7 @@
         "compound_code": "MCRW+5X 国立市、東京都",
         "global_code": "8Q7XMCRW+5X"
       },
-      "types": [
-        "cafe",
-        "food",
-        "point_of_interest",
-        "establishment"
-      ]
+      "types": ["cafe", "food", "point_of_interest", "establishment"]
     }
   ],
   "status": "OK"
