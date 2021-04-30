@@ -104,8 +104,9 @@ function App() {
           lng: response.data.lng,
         })
       })
-      .catch(() => {
+      .catch((response) => {
         console.log('error')
+        console.log(response)
       })
   }
 

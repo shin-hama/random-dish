@@ -30,8 +30,12 @@ async def get_api() -> dict:
 
 @app.get("/geolocate")
 async def get_geolocate() -> dict:
-    result = gmaps.get_current_locate()
-    return result["location"]
+    try:
+        result = gmaps.get_current_locate()
+    except Exception as e:
+        result = {"location": e}
+    finally:
+        return result["location"]
 
 
 @ app.get("/places/nearby")

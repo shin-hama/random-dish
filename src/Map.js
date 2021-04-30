@@ -21,8 +21,7 @@ function MyMap({ center, places }) {
 
   React.useEffect(() => {
     setApiKey(process.env.REACT_APP_API_KEY || '')
-    console.log(apiKey)
-  })
+  }, [])
 
   return apiKey ? (
     <LoadScript googleMapsApiKey={apiKey}>
