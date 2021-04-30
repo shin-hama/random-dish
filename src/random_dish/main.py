@@ -4,7 +4,7 @@ import random
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from random_dish.google_maps_wrapper import GoogleMap
+from .google_maps_wrapper import GoogleMap
 
 app = FastAPI()
 
