@@ -3,7 +3,6 @@
     "browser": true,
     "es2021": true
   },
-  // prettier は最後に追加
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
