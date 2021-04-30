@@ -32,8 +32,10 @@ async def get_api() -> dict:
 async def get_geolocate() -> dict:
     try:
         result = gmaps.get_current_locate()
+        print(result)
     except Exception as e:
         result = {"location": e}
+        print(e)
     finally:
         return result["location"]
 

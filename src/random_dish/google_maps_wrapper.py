@@ -11,6 +11,7 @@ class GoogleMap:
     def __init__(self):
         apikey: str = self.get_apikey()
         self.gmaps = googlemaps.Client(key=apikey)
+        print("setup successfully: googlemap api wrapper")
 
     @classmethod
     def get_apikey(cls) -> str:
