@@ -140,7 +140,3 @@ class GoogleMap:
 
 if __name__ == '__main__':
     gmaps = GoogleMap()
-
-    # places = gmaps.search_nearby()
-    place = gmaps.get_place_detail("ChIJpzB3HgrkGGARsbyOD_WqzmY")
-    photo = gmaps.get_place_photo(place["photos"][0]["photo_reference"])

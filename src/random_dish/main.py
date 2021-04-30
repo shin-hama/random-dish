@@ -1,4 +1,3 @@
-import os
 import random
 
 from fastapi import FastAPI
@@ -10,17 +9,9 @@ app = FastAPI()
 
 gmaps = GoogleMap()
 
-try:
-    port: str = os.environ["PORT"]
-    print(port)
-except KeyError:
-    print("API_KEY doesn't exist")
-    raise KeyError
-
 # CORS setting
 origins = [
-    # Add 100 to env.port by using `heroku local`
-    f"http://localhost:{int(port)+100}",
+    "*"
 ]
 app.add_middleware(
     CORSMiddleware,

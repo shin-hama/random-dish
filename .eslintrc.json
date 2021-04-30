@@ -9,6 +9,7 @@
     "standard",
     "prettier"
   ],
+  "ignorePatterns": ".mypy_cache/*",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true

@@ -1,0 +1,5 @@
+.mypy_cache/*
+package.json
+package-lock.json
+.vscode/*
+.venv/*
