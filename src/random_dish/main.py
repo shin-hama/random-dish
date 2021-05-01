@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from .google_maps_wrapper import GoogleMap
 
 app = FastAPI()
-app.mount("/", StaticFiles(directory="build", html=True), name="frontend")
+app.mount("/static", StaticFiles(directory="build", html=True), name="frontend")
 
 gmaps = GoogleMap()
 
@@ -19,6 +19,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/")
+async def hello():
+    return {"hello": "world"}
 
 
 @app.get("/geolocate")
