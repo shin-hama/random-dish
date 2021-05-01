@@ -81,7 +81,7 @@ function App() {
   const getPlaces = () => {
     const queries = `lat=${location.lat}&lng=${location.lng}&radius=${radius}&open_now=${openNow}`
     axios
-      .get(`http://127.0.01:8001/places/nearby?${queries}`)
+      .get(`http://127.0.0.1:8001/places/nearby?${queries}`)
       .then((response) => {
         console.log(response.data)
         setPlaces(response.data)
@@ -104,9 +104,11 @@ function App() {
           lng: response.data.lng,
         })
       })
-      .catch((response) => {
-        console.log('error')
-        console.log(response)
+      .catch((error) => {
+        for (const key of Object.keys(error)) {
+          console.log(key)
+          console.log(error[key])
+        }
       })
   }
 
