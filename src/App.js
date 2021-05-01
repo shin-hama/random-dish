@@ -81,7 +81,7 @@ function App() {
   const getPlaces = () => {
     const queries = `lat=${location.lat}&lng=${location.lng}&radius=${radius}&open_now=${openNow}`
     axios
-      .get(`http://127.0.01:8000/places/nearby?${queries}`)
+      .get(`http://127.0.01:8001/places/nearby?${queries}`)
       .then((response) => {
         console.log(response.data)
         setPlaces(response.data)
@@ -97,7 +97,7 @@ function App() {
 
   const getCurrentPosition = () => {
     axios
-      .get('http://127.0.0.1:8000/geolocate')
+      .get('http://127.0.0.1:8001/geolocate')
       .then((response) => {
         setLocation({
           lat: response.data.lat,
