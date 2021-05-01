@@ -1,1 +1,1 @@
-web: uvicorn --port $PORT src.random_dish.main:app
+web: uvicorn --host $HOST --port $PORT src.random_dish.main:app
