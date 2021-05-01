@@ -98,6 +98,7 @@ function App() {
   }, [])
 
   const getCurrentPosition = () => {
+    console.log(BaseHost)
     axios
       .get(`${BaseHost}/geolocate`)
       .then((response) => {
