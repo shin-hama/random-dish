@@ -44,13 +44,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const BaseHost = `http://${location.host}`
+
 function App() {
   const classes = useStyles()
   const [openDrawer, setOpenDrawer] = React.useState(false)
   const [openMap, setOpenMap] = React.useState(false)
   const [places, setPlaces] = React.useState({ results: [] })
 
-  const [location, setLocation] = React.useState({
+  const [currentLocation, setLocation] = React.useState({
     lat: 0,
     lng: 0,
   })
@@ -79,9 +81,9 @@ function App() {
   }
 
   const getPlaces = () => {
-    const queries = `lat=${location.lat}&lng=${location.lng}&radius=${radius}&open_now=${openNow}`
+    const queries = `lat=${currentLocation.lat}&lng=${currentLocation.lng}&radius=${radius}&open_now=${openNow}`
     axios
-      .get(`http://127.0.0.1:8001/places/nearby?${queries}`)
+      .get(`${BaseHost}/places/nearby?${queries}`)
       .then((response) => {
         console.log(response.data)
         setPlaces(response.data)
@@ -97,7 +99,7 @@ function App() {
 
   const getCurrentPosition = () => {
     axios
-      .get('http://127.0.0.1:8001/geolocate')
+      .get(`${BaseHost}/geolocate`)
       .then((response) => {
         setLocation({
           lat: response.data.lat,
@@ -146,7 +148,7 @@ function App() {
           <Collapse in={openMap} timeout="auto">
             <PlaceCards places={places.results} />
             <Grid container justify="center">
-              <MyMap center={location} places={places.results} />
+              <MyMap center={currentLocation} places={places.results} />
             </Grid>
           </Collapse>
           <Grid container justify="center">

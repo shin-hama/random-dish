@@ -2,10 +2,12 @@ import random
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from .google_maps_wrapper import GoogleMap
 
 app = FastAPI()
+app.mount("/", StaticFiles(directory="build", html=True), name="frontend")
 
 gmaps = GoogleMap()
 
@@ -17,12 +19,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.get("/apikey")
-async def get_api() -> dict:
-    apikey: str = GoogleMap.get_apikey()
-    return {"apikey": apikey}
 
 
 @app.get("/geolocate")
