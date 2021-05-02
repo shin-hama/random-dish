@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const BaseHost = `http://${location.host}`
+const BaseHost = `https://${location.host}`
 
 function App() {
   const classes = useStyles()
