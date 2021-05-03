@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const BaseHost = `https://${location.host}`
+const BaseApiHost = `http://${location.host}/api`
 
 function App() {
   const classes = useStyles()
@@ -83,7 +83,7 @@ function App() {
   const getPlaces = () => {
     const queries = `lat=${currentLocation.lat}&lng=${currentLocation.lng}&radius=${radius}&open_now=${openNow}`
     axios
-      .get(`${BaseHost}/places/nearby?${queries}`)
+      .get(`${BaseApiHost}/places/nearby?${queries}`)
       .then((response) => {
         console.log(response.data)
         setPlaces(response.data)
@@ -98,9 +98,9 @@ function App() {
   }, [])
 
   const getCurrentPosition = () => {
-    console.log(BaseHost)
+    console.log(BaseApiHost)
     axios
-      .get(`${BaseHost}/geolocate`)
+      .get(`${BaseApiHost}/geolocate`)
       .then((response) => {
         setLocation({
           lat: response.data.lat,

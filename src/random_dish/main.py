@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from .google_maps_wrapper import GoogleMap
 
 app = FastAPI()
-app.mount("/", StaticFiles(directory="build", html=True), name="frontend")
+app.mount("/index", StaticFiles(directory="build", html=True), name="react")
 
 gmaps = GoogleMap()
 
@@ -21,19 +21,20 @@ app.add_middleware(
 )
 
 
-@app.get("/geolocate")
+@app.get("/api/geolocate")
 async def get_geolocate() -> dict:
     try:
+        print("test")
         result = gmaps.get_current_locate()
         print(result)
     except Exception as e:
-        result = {"location": e}
         print(e)
+        result = {"location": e}
     finally:
         return result["location"]
 
 
-@ app.get("/places/nearby")
+@ app.get("/api/places/nearby")
 async def get_search_nearby_result(
         lat: float, lng: float, radius: int = 1000, open_now: bool = False
 ):
