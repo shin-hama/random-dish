@@ -44,14 +44,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const BaseApiHost = `//${location.host}/api`
+
 function App() {
   const classes = useStyles()
-  const [apiKey, setApiKey] = React.useState({ apikey: '' })
   const [openDrawer, setOpenDrawer] = React.useState(false)
   const [openMap, setOpenMap] = React.useState(false)
   const [places, setPlaces] = React.useState({ results: [] })
 
-  const [location, setLocation] = React.useState({
+  const [currentLocation, setLocation] = React.useState({
     lat: 0,
     lng: 0,
   })
@@ -80,9 +81,9 @@ function App() {
   }
 
   const getPlaces = () => {
-    const queries = `lat=${location.lat}&lng=${location.lng}&radius=${radius}&open_now=${openNow}`
+    const queries = `lat=${currentLocation.lat}&lng=${currentLocation.lng}&radius=${radius}&open_now=${openNow}`
     axios
-      .get(`http://127.0.01:8000/places/nearby?${queries}`)
+      .get(`${BaseApiHost}/places/nearby?${queries}`)
       .then((response) => {
         console.log(response.data)
         setPlaces(response.data)
@@ -92,33 +93,25 @@ function App() {
       })
   }
 
-  const getApi = () => {
-    axios
-      .get('http://127.0.0.1:8000/apikey')
-      .then((response) => {
-        setApiKey(response.data)
-      })
-      .catch(() => {
-        console.log('error')
-      })
-  }
-
   React.useEffect(() => {
-    getApi()
     getCurrentPosition()
   }, [])
 
   const getCurrentPosition = () => {
+    console.log(BaseApiHost)
     axios
-      .get('http://127.0.0.1:8000/geolocate')
+      .get(`${BaseApiHost}/geolocate`)
       .then((response) => {
         setLocation({
           lat: response.data.lat,
           lng: response.data.lng,
         })
       })
-      .catch(() => {
-        console.log('error')
+      .catch((error) => {
+        for (const key of Object.keys(error)) {
+          console.log(key)
+          console.log(error[key])
+        }
       })
   }
 
@@ -156,11 +149,7 @@ function App() {
           <Collapse in={openMap} timeout="auto">
             <PlaceCards places={places.results} />
             <Grid container justify="center">
-              <MyMap
-                apiKey={apiKey.apikey}
-                center={location}
-                places={places.results}
-              />
+              <MyMap center={currentLocation} places={places.results} />
             </Grid>
           </Collapse>
           <Grid container justify="center">
@@ -170,7 +159,7 @@ function App() {
                 color="primary"
                 onClick={onClick}
                 className={classes.mainButton}>
-                {apiKey.apikey ? 'retry' : 'Enjoy your dish'}
+                {openMap ? 'retry' : 'Enjoy your dish'}
               </Button>
             </Grid>
           </Grid>

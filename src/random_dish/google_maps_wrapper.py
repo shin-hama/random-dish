@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 import time
-from typing import Iterator, Optional
 
 import googlemaps
 
@@ -12,13 +11,15 @@ class GoogleMap:
     def __init__(self):
         apikey: str = self.get_apikey()
         self.gmaps = googlemaps.Client(key=apikey)
+        print("setup successfully: googlemap api wrapper")
 
     @classmethod
     def get_apikey(cls) -> str:
         """ Get API_KEY that is set environment variant
         """
         dotenv_path = Path(__file__).absolute().parents[2] / '.env'
-        load_dotenv(dotenv_path)
+        if dotenv_path.exists():
+            load_dotenv(dotenv_path)
         try:
             apikey: str = os.environ["API_KEY"]
         except KeyError:
@@ -140,7 +141,3 @@ class GoogleMap:
 
 if __name__ == '__main__':
     gmaps = GoogleMap()
-
-    # places = gmaps.search_nearby()
-    place = gmaps.get_place_detail("ChIJpzB3HgrkGGARsbyOD_WqzmY")
-    photo = gmaps.get_place_photo(place["photos"][0]["photo_reference"])

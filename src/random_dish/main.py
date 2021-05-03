@@ -2,39 +2,39 @@ import random
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
-from random_dish.google_maps_wrapper import GoogleMap
+from .google_maps_wrapper import GoogleMap
 
 app = FastAPI()
+app.mount("/index", StaticFiles(directory="build", html=True), name="react")
 
 gmaps = GoogleMap()
 
 # CORS setting
-origins = [
-    "http://localhost:3000",
-]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-@app.get("/apikey")
-async def get_api() -> dict:
-    apikey: str = GoogleMap.get_apikey()
-    return {"apikey": apikey}
-
-
-@app.get("/geolocate")
+@app.get("/api/geolocate")
 async def get_geolocate() -> dict:
-    result = gmaps.get_current_locate()
-    return result["location"]
+    try:
+        print("test")
+        result = gmaps.get_current_locate()
+        print(result)
+    except Exception as e:
+        print(e)
+        result = {"location": e}
+    finally:
+        return result["location"]
 
 
-@ app.get("/places/nearby")
+@ app.get("/api/places/nearby")
 async def get_search_nearby_result(
         lat: float, lng: float, radius: int = 1000, open_now: bool = False
 ):
