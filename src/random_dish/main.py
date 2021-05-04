@@ -7,7 +7,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 
-from .google_maps_wrapper import GoogleMap
+from random_dish.google_maps_wrapper import GoogleMap
 
 app = FastAPI()
 app.mount("/index", StaticFiles(directory="build", html=True), name="react")
@@ -66,4 +66,4 @@ async def get_search_nearby_result(
 
 
 if __name__ == "__main__":
-    uvicorn.run(app)
+    uvicorn.run("random_dish.main:app", reload=True)

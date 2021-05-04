@@ -51,11 +51,7 @@ function App() {
   const [openDrawer, setOpenDrawer] = React.useState(false)
   const [openMap, setOpenMap] = React.useState(false)
   const [places, setPlaces] = React.useState({ results: [] })
-
-  const [currentLocation, setLocation] = React.useState({
-    lat: 0,
-    lng: 0,
-  })
+  const [position, setPosition] = React.useState({})
   const [openNow, setOpenNow] = React.useState(true)
   const [radius, setRadius] = React.useState(0)
 
@@ -80,12 +76,15 @@ function App() {
     setOpenMap(true)
   }
 
+  React.useEffect(() => {
+    getPosition()
+  }, [])
+
   const getPlaces = () => {
-    const queries = `lat=${currentLocation.lat}&lng=${currentLocation.lng}&radius=${radius}&open_now=${openNow}`
+    const queries = `lat=${position.lat}&lng=${position.lng}&radius=${radius}&open_now=${openNow}`
     axios
       .get(`${BaseApiHost}/places/nearby?${queries}`)
       .then((response) => {
-        console.log(response.data)
         setPlaces(response.data)
       })
       .catch(() => {
@@ -93,26 +92,34 @@ function App() {
       })
   }
 
-  React.useEffect(() => {
-    getCurrentPosition()
-  }, [])
-
-  const getCurrentPosition = () => {
-    console.log(BaseApiHost)
-    axios
-      .get(`${BaseApiHost}/geolocate`)
-      .then((response) => {
-        setLocation({
-          lat: response.data.lat,
-          lng: response.data.lng,
-        })
-      })
-      .catch((error) => {
-        for (const key of Object.keys(error)) {
-          console.log(key)
-          console.log(error[key])
+  const getPosition = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setPosition({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          })
+        },
+        () => {
+          if (navigator.permissions) {
+            navigator.permissions.query({ name: 'geolocation' }).then((res) => {
+              if (res.state === 'denied') {
+                alert(
+                  'Enable location permissions for this website in your browser settings and reload this page.'
+                )
+              }
+            })
+          } else {
+            alert(
+              'Unable to access location. You can continue by submitting location manually.'
+            )
+          }
         }
-      })
+      )
+    } else {
+      alert('Sorry, Geolocation is not supported by this browser.')
+    }
   }
 
   return (
@@ -149,7 +156,7 @@ function App() {
           <Collapse in={openMap} timeout="auto">
             <PlaceCards places={places.results} />
             <Grid container justify="center">
-              <MyMap center={currentLocation} places={places.results} />
+              <MyMap center={position} places={places.results} />
             </Grid>
           </Collapse>
           <Grid container justify="center">

@@ -114,7 +114,7 @@ function RightDrawer({
 
   const searchRangeChanged = (event) => {
     setRange(event.target.value)
-    updateRadius(calcMaxDistance(event.targe.value, byWalk))
+    updateRadius(calcMaxDistance(event.target.value, byWalk))
   }
 
   React.useEffect(() => {
