@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Copyright from './Footer'
 import Header from './Header'
-import MyMap from './Map'
+import Map from './Map'
 import PlaceCards from './PlaceCard'
 import RightDrawer from './RightDrawer'
 
@@ -156,7 +156,7 @@ function App() {
           <Collapse in={openMap} timeout="auto">
             <PlaceCards places={places.results} />
             <Grid container justify="center">
-              <MyMap center={position} places={places.results} />
+              <Map center={position} places={places.results} />
             </Grid>
           </Collapse>
           <Grid container justify="center">

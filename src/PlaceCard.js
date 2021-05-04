@@ -79,12 +79,14 @@ function PlaceCard({ place, id }) {
         className={classes.header}
       />
       <CardActions disableSpacing className={classes.actions}>
-        <Rating
-          name="place-rate"
-          value={place.rating}
-          precision={0.5}
-          readOnly
-        />
+        <ToolTip title={place.rating}>
+          <Rating
+            name="place-rate"
+            value={place.rating}
+            precision={0.5}
+            readOnly
+          />
+        </ToolTip>
         <ToolTip title="Open GoogleMap">
           <IconButton
             className={classes.button}
