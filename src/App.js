@@ -156,7 +156,7 @@ function App() {
           <Collapse in={openMap} timeout="auto">
             <PlaceCards places={places.results} />
             <Grid container justify="center">
-              <Map center={position} places={places.results} />
+              <Map center={position} places={places.results} radius={radius} />
             </Grid>
           </Collapse>
           <Grid container justify="center">

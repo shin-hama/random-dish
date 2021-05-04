@@ -21,7 +21,13 @@ function Map({ center, places, radius }) {
 
   const ZoomLevel = () => {
     if (radius) {
-      return radius
+      if (radius <= 1000) {
+        return 16
+      } else if (radius <= 2000) {
+        return 14
+      } else {
+        return 12
+      }
     } else {
       return 14
     }
