@@ -70,6 +70,8 @@ function PlaceCard({ place, id }) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
 
+  console.log.apply(place)
+
   return (
     <Card className={classes.card} align="center">
       <CardHeader

@@ -2,12 +2,15 @@ import React from 'react'
 import axios from 'axios'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
 import Collapse from '@material-ui/core/Collapse'
 import Container from '@material-ui/core/Container'
 import CssBaseLine from '@material-ui/core/CssBaseline'
-import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
+import Snackbar from '@material-ui/core/Snackbar'
 import Typography from '@material-ui/core/Typography'
+import Alert from '@material-ui/lab/Alert'
+
 import Copyright from './Footer'
 import Header from './Header'
 import Map from './Map'
@@ -54,6 +57,8 @@ function App() {
   const [position, setPosition] = React.useState({})
   const [openNow, setOpenNow] = React.useState(true)
   const [radius, setRadius] = React.useState(0)
+  const [openAlert, setOpenAlert] = React.useState(false)
+  const [alertMessage, setAlertMessage] = React.useState('')
 
   const handleDrawerOpen = () => {
     setOpenDrawer(true)
@@ -74,6 +79,19 @@ function App() {
   const onClick = () => {
     getPlaces()
     setOpenMap(true)
+  }
+
+  const handleOpenAlert = (message) => {
+    setOpenAlert(true)
+    setAlertMessage(message)
+  }
+
+  const handleAlertClose = (_event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpenAlert(false)
   }
 
   React.useEffect(() => {
@@ -105,20 +123,20 @@ function App() {
           if (navigator.permissions) {
             navigator.permissions.query({ name: 'geolocation' }).then((res) => {
               if (res.state === 'denied') {
-                alert(
+                handleOpenAlert(
                   'Enable location permissions for this website in your browser settings and reload this page.'
                 )
               }
             })
           } else {
-            alert(
+            handleOpenAlert(
               'Unable to access location. You can continue by submitting location manually.'
             )
           }
         }
       )
     } else {
-      alert('Sorry, Geolocation is not supported by this browser.')
+      handleOpenAlert('Sorry, Geolocation is not supported by this browser.')
     }
   }
 
@@ -178,6 +196,18 @@ function App() {
         })}>
         <Copyright />
       </footer>
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={6000}
+        onClose={handleAlertClose}>
+        <Alert
+          elevation={6}
+          variant="filled"
+          onClose={handleAlertClose}
+          severity="error">
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   )
 }

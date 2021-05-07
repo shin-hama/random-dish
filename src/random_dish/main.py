@@ -66,4 +66,4 @@ async def get_search_nearby_result(
 
 
 if __name__ == "__main__":
-    uvicorn.run("random_dish.main:app", reload=True)
+    uvicorn.run("random_dish.main:app", port=8011, reload=True)
