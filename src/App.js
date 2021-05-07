@@ -61,11 +61,7 @@ function App() {
   const [alertMessage, setAlertMessage] = React.useState('')
 
   const handleDrawerOpen = () => {
-    setOpenDrawer(true)
-  }
-
-  const handleDrawerClose = () => {
-    setOpenDrawer(false)
+    setOpenDrawer(!openDrawer)
   }
 
   const openNowChanged = () => {
@@ -90,7 +86,6 @@ function App() {
     if (reason === 'clickaway') {
       return
     }
-
     setOpenAlert(false)
   }
 
@@ -107,6 +102,7 @@ function App() {
       })
       .catch(() => {
         console.log('fail to use google map api')
+        handleOpenAlert('fail to communicate with api')
       })
   }
 
@@ -146,7 +142,7 @@ function App() {
       <Header menuIconClicked={handleDrawerOpen} />
       <RightDrawer
         open={openDrawer}
-        handleDrawerClose={handleDrawerClose}
+        handleDrawerClose={handleDrawerOpen}
         updateRadius={updateRadius}
         openNow={openNow}
         openNowChanged={openNowChanged}
