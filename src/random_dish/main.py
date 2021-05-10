@@ -39,7 +39,7 @@ async def get_geolocate() -> dict:
         return result["location"]
 
 
-@ app.get("/api/places/nearby")
+@app.get("/api/places/nearby")
 async def get_search_nearby_result(
         lat: float, lng: float, radius: int = 1000, open_now: bool = False
 ):
