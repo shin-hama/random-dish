@@ -1,15 +1,16 @@
+
 import random
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
+import uvicorn
 
-from .google_maps_wrapper import GoogleMap
+from random_dish.google_maps_wrapper import GoogleMap
 
 app = FastAPI()
 app.mount("/index", StaticFiles(directory="build", html=True), name="react")
-
-gmaps = GoogleMap()
 
 # CORS setting
 app.add_middleware(
@@ -20,21 +21,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+gmaps = GoogleMap()
+
+
+@app.get("/")
+async def index() -> RedirectResponse:
+    return RedirectResponse("/index")
+
 
 @app.get("/api/geolocate")
 async def get_geolocate() -> dict:
     try:
-        print("test")
         result = gmaps.get_current_locate()
-        print(result)
     except Exception as e:
-        print(e)
         result = {"location": e}
     finally:
         return result["location"]
 
 
-@ app.get("/api/places/nearby")
+@app.get("/api/places/nearby")
 async def get_search_nearby_result(
         lat: float, lng: float, radius: int = 1000, open_now: bool = False
 ):
@@ -58,3 +63,7 @@ async def get_search_nearby_result(
         places.append(place_detail)
 
     return {"results": places}
+
+
+if __name__ == "__main__":
+    uvicorn.run("random_dish.main:app", port=8011, reload=True)

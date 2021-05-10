@@ -55,14 +55,14 @@ class GoogleMap:
         """
         results: list = []
 
-        print(fields)
         if "location" not in fields.keys():
             geolocate: dict = self.get_current_locate()
             fields["location"] = geolocate["location"]
 
         if "radius" not in fields.keys():
             fields["radius"] = 1000
-        print(fields)
+
+        fields["type"] = "restaurant"
 
         for i in range(1):
             places = self.gmaps.places_nearby(**fields)

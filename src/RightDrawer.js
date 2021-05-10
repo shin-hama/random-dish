@@ -92,11 +92,6 @@ TransportationIcon.propTypes = {
   handleTransportation: PropTypes.func.isRequired,
 }
 
-const calcMaxDistance = (maxTime, byWalk) => {
-  const meterPerMin = byWalk ? 80 : 400
-  return maxTime * meterPerMin
-}
-
 function RightDrawer({
   open,
   handleDrawerClose,
@@ -105,7 +100,7 @@ function RightDrawer({
   openNowChanged,
 }) {
   const classes = useStyles()
-  const [range, setRange] = React.useState(5)
+  const [time, setTime] = React.useState(5)
   const [byWalk, setByWalk] = React.useState(true)
 
   const handleTransportation = () => {
@@ -113,13 +108,17 @@ function RightDrawer({
   }
 
   const searchRangeChanged = (event) => {
-    setRange(event.target.value)
-    updateRadius(calcMaxDistance(event.targe.value, byWalk))
+    setTime(event.target.value)
   }
 
   React.useEffect(() => {
-    updateRadius(calcMaxDistance(range, byWalk))
-  })
+    updateRadius(calcMaxDistance(time, byWalk))
+  }, [time, byWalk])
+
+  const calcMaxDistance = (maxTime, byWalk) => {
+    const meterPerMin = byWalk ? 80 : 400
+    return maxTime * meterPerMin
+  }
 
   return (
     <>
@@ -149,7 +148,7 @@ function RightDrawer({
             </ListItemSecondaryAction>
           </ListItem>
           <ListItem>
-            <SearchRangeForm range={range} onChange={searchRangeChanged} />
+            <SearchRangeForm range={time} onChange={searchRangeChanged} />
           </ListItem>
         </List>
         <Divider />

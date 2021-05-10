@@ -7,7 +7,7 @@ const containerStyle = {
   height: '60vh',
 }
 
-function MyMap({ center, places }) {
+function Map({ center, places, radius }) {
   const [apiKey, setApiKey] = React.useState('')
   const markerLabel = (label) => {
     return {
@@ -19,13 +19,30 @@ function MyMap({ center, places }) {
     }
   }
 
+  const ZoomLevel = () => {
+    if (radius) {
+      if (radius <= 1000) {
+        return 16
+      } else if (radius <= 2000) {
+        return 14
+      } else {
+        return 12
+      }
+    } else {
+      return 14
+    }
+  }
+
   React.useEffect(() => {
     setApiKey(process.env.REACT_APP_API_KEY || '')
   }, [])
 
   return apiKey ? (
     <LoadScript googleMapsApiKey={apiKey}>
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={14}>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={ZoomLevel()}>
         {/* Child components, such as markers, info windows, etc. */}
         {places.map((place, i) => (
           <Marker
@@ -40,8 +57,9 @@ function MyMap({ center, places }) {
     <></>
   )
 }
-MyMap.propTypes = {
+Map.propTypes = {
   center: PropTypes.object.isRequired,
   places: PropTypes.array,
+  radius: PropTypes.number,
 }
-export default MyMap
+export default Map

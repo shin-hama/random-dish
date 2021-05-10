@@ -11,7 +11,6 @@ import ToolTip from '@material-ui/core/Tooltip'
 import Rating from '@material-ui/lab/Rating'
 import { red } from '@material-ui/core/colors'
 import MapIcon from '@material-ui/icons/Map'
-import ShareIcon from '@material-ui/icons/Share'
 import Grid from '@material-ui/core/Grid'
 import MobileStepper from '@material-ui/core/MobileStepper'
 import Button from '@material-ui/core/Button'
@@ -71,6 +70,8 @@ function PlaceCard({ place, id }) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
 
+  console.log.apply(place)
+
   return (
     <Card className={classes.card} align="center">
       <CardHeader
@@ -80,19 +81,19 @@ function PlaceCard({ place, id }) {
         className={classes.header}
       />
       <CardActions disableSpacing className={classes.actions}>
-        <Rating
-          name="place-rate"
-          value={place.rating}
-          precision={0.5}
-          readOnly
-        />
-        <ToolTip title="Share">
-          <IconButton aria-label="share" className={classes.button}>
-            <ShareIcon />
-          </IconButton>
+        <ToolTip title={place.rating}>
+          <Rating
+            name="place-rate"
+            value={place.rating}
+            precision={0.5}
+            readOnly
+          />
         </ToolTip>
         <ToolTip title="Open GoogleMap">
-          <IconButton>
+          <IconButton
+            className={classes.button}
+            href={place.url}
+            target="_blank">
             <MapIcon />
           </IconButton>
         </ToolTip>
