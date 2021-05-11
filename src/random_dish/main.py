@@ -29,16 +29,6 @@ async def index() -> RedirectResponse:
     return RedirectResponse("/index")
 
 
-@app.get("/api/geolocate")
-async def get_geolocate() -> dict:
-    try:
-        result = gmaps.get_current_locate()
-    except Exception as e:
-        result = {"location": e}
-    finally:
-        return result["location"]
-
-
 @app.get("/api/places/nearby")
 async def get_search_nearby_result(
         lat: float, lng: float, radius: int = 1000, open_now: bool = False
