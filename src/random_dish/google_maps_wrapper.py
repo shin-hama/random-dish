@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 import time
+from typing import Any
 
 import googlemaps
 
@@ -82,7 +83,9 @@ class GoogleMap:
 
         return results
 
-    def get_place_detail(self, place_id: str, fields: list[str] = []) -> dict:
+    def get_place_detail(
+        self, place_id: str, fields: list[str] = []
+    ) -> dict[str, Any]:
         """ Get place information from place id. Return value
 
         Parameter
@@ -110,11 +113,15 @@ class GoogleMap:
         ]
         # Remove duplicate field from both input fields and default fields.
         fields = list(set([*fields, *default_field]))
-        place = self.gmaps.place(place_id, fields=fields, language="ja")
+        place: dict = self.gmaps.place(
+            place_id, fields=fields, language="ja"
+        )
         if place["status"] != "OK":
             return {}
 
-        return place["result"]
+        result: dict[str, Any] = place["result"]
+
+        return result
 
     def get_place_photo(self, photo_ref: str) -> str:
         """ Get photo image chunk from photo reference of google map api.
