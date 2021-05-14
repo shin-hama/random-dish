@@ -14,7 +14,7 @@ import Alert from '@material-ui/lab/Alert'
 import Copyright from './Footer'
 import Header from './Header'
 import Map from './Map'
-import PlaceCards from './PlaceCard'
+import CardList from './CardList'
 import RightDrawer from './RightDrawer'
 
 const useStyles = makeStyles((theme) => ({
@@ -168,7 +168,7 @@ function App() {
             What will you eat?
           </Typography>{' '}
           <Collapse in={openMap} timeout="auto">
-            <PlaceCards places={places.results} />
+            <CardList places={places.results} />
             <Grid container justify="center">
               <Map center={position} places={places.results} radius={radius} />
             </Grid>
