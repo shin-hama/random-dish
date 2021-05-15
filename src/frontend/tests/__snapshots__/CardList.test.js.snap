@@ -35,7 +35,7 @@ exports[`Update places 1`] = `
           <span
             className="MuiTypography-root MuiCardHeader-title MuiTypography-h6 MuiTypography-displayBlock"
           >
-            only
+            minimum
           </span>
         </div>
       </div>
@@ -44,7 +44,7 @@ exports[`Update places 1`] = `
       >
         <span
           aria-describedby={null}
-          aria-label="null Stars"
+          aria-label="0 Stars"
           className="MuiRating-root MuiRating-readOnly"
           onBlur={[Function]}
           onFocus={[Function]}
@@ -335,7 +335,7 @@ exports[`Update places 1`] = `
       <img
         className="MuiCardMedia-root makeStyles-media-6 MuiCardMedia-media MuiCardMedia-img"
         src="no image"
-        title="only"
+        title="minimum"
       />
       <div
         className="MuiPaper-root MuiMobileStepper-root MuiMobileStepper-positionStatic MuiPaper-elevation0"
@@ -875,7 +875,7 @@ exports[`Update places 2`] = `
       >
         <span
           aria-describedby={null}
-          aria-label="null Stars"
+          aria-label="4 Stars"
           className="MuiRating-root MuiRating-readOnly"
           onBlur={[Function]}
           onFocus={[Function]}
@@ -901,7 +901,7 @@ exports[`Update places 2`] = `
               }
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -919,7 +919,7 @@ exports[`Update places 2`] = `
               style={Object {}}
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -948,7 +948,7 @@ exports[`Update places 2`] = `
               }
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -966,7 +966,7 @@ exports[`Update places 2`] = `
               style={Object {}}
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -995,7 +995,7 @@ exports[`Update places 2`] = `
               }
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -1013,7 +1013,7 @@ exports[`Update places 2`] = `
               style={Object {}}
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -1042,7 +1042,7 @@ exports[`Update places 2`] = `
               }
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -1060,7 +1060,7 @@ exports[`Update places 2`] = `
               style={Object {}}
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -1283,7 +1283,7 @@ exports[`Update places 2`] = `
           <span
             className="MuiTypography-root MuiCardHeader-title MuiTypography-h6 MuiTypography-displayBlock"
           >
-            only
+            minimum
           </span>
         </div>
       </div>
@@ -1292,7 +1292,7 @@ exports[`Update places 2`] = `
       >
         <span
           aria-describedby={null}
-          aria-label="undefined Stars"
+          aria-label="0 Stars"
           className="MuiRating-root MuiRating-readOnly"
           onBlur={[Function]}
           onFocus={[Function]}
@@ -1583,7 +1583,7 @@ exports[`Update places 2`] = `
       <img
         className="MuiCardMedia-root makeStyles-media-6 MuiCardMedia-media MuiCardMedia-img"
         src="no image"
-        title="only"
+        title="minimum"
       />
       <div
         className="MuiPaper-root MuiMobileStepper-root MuiMobileStepper-positionStatic MuiPaper-elevation0"

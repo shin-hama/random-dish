@@ -10,7 +10,7 @@ test('Empty card list', () => {
 
 test('Update places', () => {
   const places = [
-    { name: 'only' },
+    { name: 'minimum' },
     {
       name: 'all',
       photos: ['1', '2', '3'],

@@ -71,7 +71,7 @@ function PlaceCard({ place, id }) {
         <ToolTip title={place.rating ? place.rating : 0}>
           <Rating
             name="place-rate"
-            value={place.rating}
+            value={place.rating ? place.rating : 0}
             precision={0.5}
             readOnly
           />
