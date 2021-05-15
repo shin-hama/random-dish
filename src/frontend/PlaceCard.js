@@ -11,7 +11,6 @@ import ToolTip from '@material-ui/core/Tooltip'
 import Rating from '@material-ui/lab/Rating'
 import { red } from '@material-ui/core/colors'
 import MapIcon from '@material-ui/icons/Map'
-import Grid from '@material-ui/core/Grid'
 import MobileStepper from '@material-ui/core/MobileStepper'
 import Button from '@material-ui/core/Button'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
@@ -41,36 +40,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function PlaceCards({ places }) {
-  return (
-    <Grid container spacing={3} alignItems="center" justify="center">
-      {places.map((item, i) => (
-        <Grid key={i} item xs={6} md={4} lg={4}>
-          <PlaceCard place={item} id={i} />
-        </Grid>
-      ))}
-    </Grid>
-  )
-}
-PlaceCards.propTypes = {
-  places: PropTypes.array,
-}
-
 function PlaceCard({ place, id }) {
   const classes = useStyles()
   const theme = useTheme()
-  const maxSteps = place.photos.length >= 3 ? 3 : place.photos.length
+  const minStep = 0
+  const maxStep = place.photos ? place.photos.length : minStep
   const [activeStep, setActiveStep] = React.useState(0)
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    setActiveStep((prevValue) => {
+      return prevValue === maxStep ? maxStep : prevValue + 1
+    })
   }
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1)
+    setActiveStep((prevValue) => {
+      return prevValue === minStep ? minStep : prevValue - 1
+    })
   }
-
-  console.log.apply(place)
 
   return (
     <Card className={classes.card} align="center">
@@ -81,10 +68,10 @@ function PlaceCard({ place, id }) {
         className={classes.header}
       />
       <CardActions disableSpacing className={classes.actions}>
-        <ToolTip title={place.rating}>
+        <ToolTip title={place.rating ? place.rating : 0}>
           <Rating
             name="place-rate"
-            value={place.rating}
+            value={place.rating ? place.rating : 0}
             precision={0.5}
             readOnly
           />
@@ -101,11 +88,11 @@ function PlaceCard({ place, id }) {
       <CardMedia
         className={classes.media}
         component="img"
-        src={place.photos[activeStep]}
+        src={place.photos ? place.photos[activeStep] : 'no image'}
         title={place.name}
       />
       <MobileStepper
-        steps={maxSteps}
+        steps={maxStep}
         position="static"
         variant="dots"
         activeStep={activeStep}
@@ -113,7 +100,7 @@ function PlaceCard({ place, id }) {
           <Button
             size="small"
             onClick={handleNext}
-            disabled={activeStep === maxSteps - 1}>
+            disabled={activeStep === maxStep - 1}>
             Next
             {theme.direction === 'rtl' ? (
               <KeyboardArrowLeft />
@@ -137,8 +124,13 @@ function PlaceCard({ place, id }) {
   )
 }
 PlaceCard.propTypes = {
-  place: PropTypes.object.isRequired,
+  place: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    photos: PropTypes.arrayOf(PropTypes.string),
+    rating: PropTypes.number,
+    url: PropTypes.string,
+  }).isRequired,
   id: PropTypes.number.isRequired,
 }
 
-export default PlaceCards
+export default PlaceCard

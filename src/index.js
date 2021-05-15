@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
-import App from './App'
-import reportWebVitals from './reportWebVitals'
+import App from './frontend/App'
+import reportWebVitals from './frontend/reportWebVitals'
 
 const customTheme = createMuiTheme({
   mixins: {
