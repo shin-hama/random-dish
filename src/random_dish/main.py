@@ -1,5 +1,5 @@
-
 import random
+from typing import Any
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,13 +23,25 @@ app.add_middleware(
 
 gmaps = GoogleMap()
 
+API_ROOT = "/api"
+
 
 @app.get("/")
 async def index() -> RedirectResponse:
     return RedirectResponse("/index")
 
 
-@app.get("/api/places/nearby")
+@app.get(f"{API_ROOT}/geolocates")
+async def get_geolocate():
+    try:
+        geolocate = gmaps.get_current_locate()
+        return build_result(geolocate)
+    except Exception as e:
+        print(f"{e.__class__.__name__}: {str(e)}")
+        raise e
+
+
+@app.get(f"{API_ROOT}/places/nearby")
 async def get_search_nearby_result(
         lat: float, lng: float, radius: int = 1000, open_now: bool = False
 ):
@@ -38,22 +50,46 @@ async def get_search_nearby_result(
         "radius": radius,
         "open_now": open_now
     }
-    result = gmaps.search_nearby(fields)
+    try:
+        result = gmaps.search_nearby(fields)
 
-    selected_places = random.sample(result, 2)
+        selected_places = random.sample(result, 2)
+        return build_result(selected_places)
+    except Exception as e:
+        print(f"{e.__class__.__name__}: {str(e)}")
+        raise e
 
-    places = []
-    for place in selected_places:
-        place_detail = gmaps.get_place_detail(place["place_id"])
-        place_detail["photos"] = [
-            "data:image/jpeg;base64,"
-            f"{gmaps.get_place_photo(photo['photo_reference'])}"
-            for photo in place_detail["photos"][0:3]
-        ]
-        places.append(place_detail)
 
-    return {"results": places}
+@app.get(f"{API_ROOT}/details/{{place_id}}")
+async def get_place_detail(place_id: str):
+    try:
+        place_detail = gmaps.get_place_detail(place_id)
+        return build_result(place_detail)
+    except Exception as e:
+        print(f"{e.__class__.__name__}: {str(e)}")
+        raise e
+
+
+@app.get(f"{API_ROOT}/photos/{{ref}}")
+async def get_place_photo(ref: str):
+    try:
+        photo = f"data:image/jpeg;base64,{gmaps.get_place_photo(ref)}"
+        return build_result(photo)
+    except Exception as e:
+        print(f"{e.__class__.__name__}: {str(e)}")
+        raise e
+
+
+def build_result(result: Any) -> dict:
+    if isinstance(result, dict):
+        return result
+    else:
+        return {"result": result}
+
+
+def main():
+    uvicorn.run("random_dish.main:app", port=8011, reload=True)
 
 
 if __name__ == "__main__":
-    uvicorn.run("random_dish.main:app", port=8011, reload=True)
+    main()
