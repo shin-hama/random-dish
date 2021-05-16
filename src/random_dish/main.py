@@ -81,6 +81,7 @@ async def get_place_photo(ref: str):
 
 
 def build_result(result: Any) -> dict:
+    print(result)
     if isinstance(result, dict):
         return result
     else:

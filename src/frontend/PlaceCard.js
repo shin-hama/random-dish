@@ -44,7 +44,7 @@ function PlaceCard({ place, id }) {
   const classes = useStyles()
   const theme = useTheme()
   const minStep = 0
-  const maxStep = place.photos ? place.photos.length : minStep
+  const [maxStep, setMaxStep] = React.useState(0)
   const [activeStep, setActiveStep] = React.useState(0)
 
   const handleNext = () => {
@@ -58,6 +58,18 @@ function PlaceCard({ place, id }) {
       return prevValue === minStep ? minStep : prevValue - 1
     })
   }
+
+  const updateMaxStep = () => {
+    if (place.photos && place.photos.length > 3) {
+      setMaxStep(3)
+    } else if (place.photos) {
+      setMaxStep(place.photos.length)
+    }
+  }
+
+  React.useEffect(() => {
+    updateMaxStep()
+  }, place)
 
   return (
     <Card className={classes.card} align="center">
@@ -110,7 +122,10 @@ function PlaceCard({ place, id }) {
           </Button>
         }
         backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+          <Button
+            size="small"
+            onClick={handleBack}
+            disabled={activeStep === minStep}>
             {theme.direction === 'rtl' ? (
               <KeyboardArrowRight />
             ) : (

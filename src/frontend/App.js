@@ -53,7 +53,7 @@ function App() {
   const classes = useStyles()
   const [openDrawer, setOpenDrawer] = React.useState(false)
   const [openMap, setOpenMap] = React.useState(false)
-  const [places, setPlaces] = React.useState({ results: [] })
+  const [places, setPlaces] = React.useState([])
   const [position, setPosition] = React.useState({})
   const [openNow, setOpenNow] = React.useState(true)
   const [radius, setRadius] = React.useState(0)
@@ -93,12 +93,53 @@ function App() {
     getPosition()
   }, [])
 
+  React.useEffect(() => {
+    console.log(places.map((item) => getPlaceDetail(item)))
+  }, places)
+
   const getPlaces = () => {
     const queries = `lat=${position.lat}&lng=${position.lng}&radius=${radius}&open_now=${openNow}`
     axios
       .get(`${BaseApiHost}/places/nearby?${queries}`)
       .then((response) => {
-        setPlaces(response.data)
+        console.log(response.data)
+        setPlaces(
+          response.data.result.map((item, i) => ({
+            name: item.name,
+            rating: item.rating,
+            location: {
+              lat: item.geometry.location.lat,
+              lng: item.geometry.location.lng,
+            },
+          }))
+        )
+      })
+      .catch(() => {
+        console.log('fail to use google map api')
+        handleOpenAlert('fail to communicate with api')
+      })
+  }
+
+  const getPlaceDetail = (place) => {
+    axios
+      .get(`${BaseApiHost}/details/${place.place_id}`)
+      .then((response) => {
+        const placeDetail = response.data
+        console.log(placeDetail)
+        getPlacePhoto('te')
+        return placeDetail
+      })
+      .catch(() => {
+        console.log('fail to use google map api')
+        handleOpenAlert('fail to communicate with api')
+      })
+  }
+
+  const getPlacePhoto = (placeDetail) => {
+    axios
+      .get(`${BaseApiHost}/photos/${placeDetail.photo_reference}`)
+      .then((response) => {
+        placeDetail = response.data
       })
       .catch(() => {
         console.log('fail to use google map api')
@@ -168,9 +209,9 @@ function App() {
             What will you eat?
           </Typography>{' '}
           <Collapse in={openMap} timeout="auto">
-            <CardList places={places.results} />
+            <CardList places={places} />
             <Grid container justify="center">
-              <Map center={position} places={places.results} radius={radius} />
+              <Map center={position} places={places} radius={radius} />
             </Grid>
           </Collapse>
           <Grid container justify="center">
