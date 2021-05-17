@@ -7,10 +7,9 @@ import Collapse from '@material-ui/core/Collapse'
 import Container from '@material-ui/core/Container'
 import CssBaseLine from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
-import Snackbar from '@material-ui/core/Snackbar'
 import Typography from '@material-ui/core/Typography'
-import Alert from '@material-ui/lab/Alert'
 
+import AlertDialog from './AlertDialog'
 import Copyright from './Footer'
 import Header from './Header'
 import Map from './Map'
@@ -47,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const BaseApiHost = `//${location.host}/api`
+const BaseApiHost =
+  `${process.env.REACT_APP_API_SERVER}/api` || `//${location.host}/api`
 
 function App() {
   const classes = useStyles()
@@ -57,8 +57,7 @@ function App() {
   const [position, setPosition] = React.useState({})
   const [openNow, setOpenNow] = React.useState(true)
   const [radius, setRadius] = React.useState(0)
-  const [openAlert, setOpenAlert] = React.useState(false)
-  const [alertMessage, setAlertMessage] = React.useState('')
+  const [message, setMessage] = React.useState('')
 
   const handleDrawerOpen = () => {
     setOpenDrawer(!openDrawer)
@@ -77,24 +76,20 @@ function App() {
     setOpenMap(true)
   }
 
-  const handleOpenAlert = (message) => {
-    setOpenAlert(true)
-    setAlertMessage(message)
-  }
-
-  const handleAlertClose = (_event, reason) => {
-    if (reason === 'clickaway') {
-      return
-    }
-    setOpenAlert(false)
-  }
-
   React.useEffect(() => {
     getPosition()
   }, [])
 
   React.useEffect(() => {
-    console.log(places.map((item) => getPlaceDetail(item)))
+    console.log('change places')
+    setPlaces(
+      places.map((item) => ({
+        ...item,
+        url: getPlaceDetail(item.place_id).url,
+      }))
+    )
+
+    console.log('update')
   }, places)
 
   const getPlaces = () => {
@@ -104,7 +99,7 @@ function App() {
       .then((response) => {
         console.log(response.data)
         setPlaces(
-          response.data.result.map((item, i) => ({
+          response.data.result.map((item) => ({
             name: item.name,
             rating: item.rating,
             location: {
@@ -116,7 +111,7 @@ function App() {
       })
       .catch(() => {
         console.log('fail to use google map api')
-        handleOpenAlert('fail to communicate with api')
+        setMessage('fail to communicate with api')
       })
   }
 
@@ -126,13 +121,13 @@ function App() {
       .then((response) => {
         const placeDetail = response.data
         console.log(placeDetail)
-        getPlacePhoto('te')
         return placeDetail
       })
       .catch(() => {
         console.log('fail to use google map api')
-        handleOpenAlert('fail to communicate with api')
+        setMessage('fail to communicate with api')
       })
+    getPlacePhoto('te')
   }
 
   const getPlacePhoto = (placeDetail) => {
@@ -143,7 +138,7 @@ function App() {
       })
       .catch(() => {
         console.log('fail to use google map api')
-        handleOpenAlert('fail to communicate with api')
+        setMessage('fail to communicate with api')
       })
   }
 
@@ -160,23 +155,24 @@ function App() {
           if (navigator.permissions) {
             navigator.permissions.query({ name: 'geolocation' }).then((res) => {
               if (res.state === 'denied') {
-                handleOpenAlert(
+                setMessage(
                   'Enable location permissions for this website in your browser settings and reload this page.'
                 )
               }
             })
           } else {
-            handleOpenAlert(
+            setMessage(
               'Unable to access location. You can continue by submitting location manually.'
             )
           }
         }
       )
     } else {
-      handleOpenAlert('Sorry, Geolocation is not supported by this browser.')
+      setMessage('Sorry, Geolocation is not supported by this browser.')
     }
   }
 
+  console.log(places)
   return (
     <div>
       <CssBaseLine />
@@ -233,18 +229,7 @@ function App() {
         })}>
         <Copyright />
       </footer>
-      <Snackbar
-        open={openAlert}
-        autoHideDuration={6000}
-        onClose={handleAlertClose}>
-        <Alert
-          elevation={6}
-          variant="filled"
-          onClose={handleAlertClose}
-          severity="error">
-          {alertMessage}
-        </Alert>
-      </Snackbar>
+      <AlertDialog message={message} />
     </div>
   )
 }
