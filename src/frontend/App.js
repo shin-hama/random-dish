@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -10,6 +9,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 import AlertDialog from './AlertDialog'
+import { getMethod } from './APIConnection'
 import Copyright from './Footer'
 import Header from './Header'
 import Map from './Map'
@@ -45,9 +45,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(6),
   },
 }))
-
-const BaseApiHost =
-  `${process.env.REACT_APP_API_SERVER}/api` || `//${location.host}/api`
 
 function App() {
   const classes = useStyles()
@@ -93,13 +90,13 @@ function App() {
   }, places)
 
   const getPlaces = () => {
-    const queries = `lat=${position.lat}&lng=${position.lng}&radius=${radius}&open_now=${openNow}`
-    axios
-      .get(`${BaseApiHost}/places/nearby?${queries}`)
-      .then((response) => {
-        console.log(response.data)
+    const query = `lat=${position.lat}&lng=${position.lng}&radius=${radius}&open_now=${openNow}`
+    getMethod({
+      endpoint: 'places/nearby',
+      query: query,
+      callback: (data) => {
         setPlaces(
-          response.data.result.map((item) => ({
+          data.result.map((item) => ({
             name: item.name,
             rating: item.rating,
             location: {
@@ -108,38 +105,32 @@ function App() {
             },
           }))
         )
-      })
-      .catch(() => {
-        console.log('fail to use google map api')
-        setMessage('fail to communicate with api')
-      })
+      },
+      errorCallback: setMessage,
+    })
   }
 
   const getPlaceDetail = (place) => {
-    axios
-      .get(`${BaseApiHost}/details/${place.place_id}`)
-      .then((response) => {
-        const placeDetail = response.data
+    getMethod({
+      endpoint: `details/${place.place_id}`,
+      callback: (data) => {
+        const placeDetail = data
         console.log(placeDetail)
-        return placeDetail
-      })
-      .catch(() => {
-        console.log('fail to use google map api')
-        setMessage('fail to communicate with api')
-      })
-    getPlacePhoto('te')
+      },
+      errorCallback: setMessage,
+    })
+    getPlacePhoto('')
   }
 
   const getPlacePhoto = (placeDetail) => {
-    axios
-      .get(`${BaseApiHost}/photos/${placeDetail.photo_reference}`)
-      .then((response) => {
-        placeDetail = response.data
-      })
-      .catch(() => {
-        console.log('fail to use google map api')
-        setMessage('fail to communicate with api')
-      })
+    getMethod({
+      endpoint: `photos/${placeDetail.photo_reference}`,
+      callback: (data) => {
+        const photo = data
+        console.log(photo)
+      },
+      errorCallback: setMessage,
+    })
   }
 
   const getPosition = () => {
@@ -229,7 +220,7 @@ function App() {
         })}>
         <Copyright />
       </footer>
-      <AlertDialog message={message} />
+      <AlertDialog message={message} setMessage={setMessage} />
     </div>
   )
 }

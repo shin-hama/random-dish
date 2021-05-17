@@ -3,21 +3,21 @@ import React from 'react'
 import Snackbar from '@material-ui/core/Snackbar'
 import Alert from '@material-ui/lab/Alert'
 
-const AlertDialog = ({ message }) => {
+const AlertDialog = ({ message, setMessage }) => {
   const [openAlert, setOpenAlert] = React.useState(false)
-  const [alertMessage, setAlertMessage] = React.useState('')
 
   const handleAlertClose = (_event, reason) => {
     if (reason === 'clickaway') {
       return
     }
     setOpenAlert(false)
+    setMessage('')
   }
 
   React.useEffect(() => {
     if (message !== '') {
       setOpenAlert(true)
-      setAlertMessage(message)
+      setMessage(message)
     }
   }, [message])
 
@@ -31,13 +31,14 @@ const AlertDialog = ({ message }) => {
         variant="filled"
         onClose={handleAlertClose}
         severity="error">
-        {alertMessage}
+        {message}
       </Alert>
     </Snackbar>
   )
 }
 AlertDialog.propTypes = {
   message: PropTypes.string.isRequired,
+  setMessage: PropTypes.func.isRequired,
 }
 
 export default AlertDialog
