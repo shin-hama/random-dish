@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types'
 import axios from 'axios'
 
+import { setAlertMessage } from './AlertDialog'
+
 const BaseApiHost =
   `${process.env.REACT_APP_API_SERVER}/api` || `//${location.host}/api`
 
-export const getMethod = ({ endpoint, query, callback, errorCallback }) => {
+export const getMethod = ({ endpoint, query, callback }) => {
   const uri = query
     ? `${BaseApiHost}/${endpoint}?${query}`
     : `${BaseApiHost}/${endpoint}`
@@ -17,7 +19,7 @@ export const getMethod = ({ endpoint, query, callback, errorCallback }) => {
     })
     .catch(() => {
       console.log('fail to use google map api')
-      errorCallback?.('fail to communicate with api')
+      setAlertMessage('fail to communicate with api')
     })
 }
 getMethod.propTypes = {

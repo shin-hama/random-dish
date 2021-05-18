@@ -8,7 +8,7 @@ import CssBaseLine from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
-import AlertDialog from './AlertDialog'
+import { AlertDialog, setAlertMessage, useAlertDialog } from './AlertDialog'
 import { getMethod } from './APIConnection'
 import Copyright from './Footer'
 import Header from './Header'
@@ -54,7 +54,8 @@ function App() {
   const [position, setPosition] = React.useState({})
   const [openNow, setOpenNow] = React.useState(true)
   const [radius, setRadius] = React.useState(0)
-  const [message, setMessage] = React.useState('')
+
+  useAlertDialog()
 
   const handleDrawerOpen = () => {
     setOpenDrawer(!openDrawer)
@@ -77,18 +78,6 @@ function App() {
     getPosition()
   }, [])
 
-  React.useEffect(() => {
-    console.log('change places')
-    setPlaces(
-      places.map((item) => ({
-        ...item,
-        url: getPlaceDetail(item.place_id).url,
-      }))
-    )
-
-    console.log('update')
-  }, places)
-
   const getPlaces = () => {
     const query = `lat=${position.lat}&lng=${position.lng}&radius=${radius}&open_now=${openNow}`
     getMethod({
@@ -103,33 +92,10 @@ function App() {
               lat: item.geometry.location.lat,
               lng: item.geometry.location.lng,
             },
+            id: item.place_id,
           }))
         )
       },
-      errorCallback: setMessage,
-    })
-  }
-
-  const getPlaceDetail = (place) => {
-    getMethod({
-      endpoint: `details/${place.place_id}`,
-      callback: (data) => {
-        const placeDetail = data
-        console.log(placeDetail)
-      },
-      errorCallback: setMessage,
-    })
-    getPlacePhoto('')
-  }
-
-  const getPlacePhoto = (placeDetail) => {
-    getMethod({
-      endpoint: `photos/${placeDetail.photo_reference}`,
-      callback: (data) => {
-        const photo = data
-        console.log(photo)
-      },
-      errorCallback: setMessage,
     })
   }
 
@@ -146,24 +112,23 @@ function App() {
           if (navigator.permissions) {
             navigator.permissions.query({ name: 'geolocation' }).then((res) => {
               if (res.state === 'denied') {
-                setMessage(
+                setAlertMessage(
                   'Enable location permissions for this website in your browser settings and reload this page.'
                 )
               }
             })
           } else {
-            setMessage(
+            setAlertMessage(
               'Unable to access location. You can continue by submitting location manually.'
             )
           }
         }
       )
     } else {
-      setMessage('Sorry, Geolocation is not supported by this browser.')
+      setAlertMessage('Sorry, Geolocation is not supported by this browser.')
     }
   }
 
-  console.log(places)
   return (
     <div>
       <CssBaseLine />
@@ -220,7 +185,7 @@ function App() {
         })}>
         <Copyright />
       </footer>
-      <AlertDialog message={message} setMessage={setMessage} />
+      <AlertDialog />
     </div>
   )
 }

@@ -16,6 +16,8 @@ import Button from '@material-ui/core/Button'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 
+import { getMethod } from './APIConnection'
+
 const useStyles = makeStyles((theme) => ({
   card: {
     marginTop: theme.spacing(4),
@@ -46,6 +48,8 @@ function PlaceCard({ place, id }) {
   const minStep = 0
   const [maxStep, setMaxStep] = React.useState(0)
   const [activeStep, setActiveStep] = React.useState(0)
+  const [photos, setPhotos] = React.useState()
+  const [url, setUrl] = React.useState('')
 
   const handleNext = () => {
     setActiveStep((prevValue) => {
@@ -60,16 +64,44 @@ function PlaceCard({ place, id }) {
   }
 
   const updateMaxStep = () => {
-    if (place.photos && place.photos.length > 3) {
+    if (photos && photos.length > 3) {
       setMaxStep(3)
-    } else if (place.photos) {
-      setMaxStep(place.photos.length)
+    } else if (photos) {
+      setMaxStep(photos.length)
+    } else {
+      setMaxStep(0)
     }
   }
 
+  const getPlacePhoto = (placeDetail) => {
+    getMethod({
+      endpoint: `photos/${placeDetail.photo_reference}`,
+      callback: (data) => {
+        const photo = data
+        console.log(photo)
+      },
+    })
+  }
+
+  const getPlaceDetail = (id) => {
+    getMethod({
+      endpoint: `details/${id}`,
+      callback: (data) => {
+        const placeDetail = data
+        console.log(placeDetail)
+      },
+    })
+  }
+
+  React.useEffect(() => {
+    const detail = getPlaceDetail(place.id)
+    setUrl(detail.url)
+    setPhotos(detail.photos.slice(0, 3).map((ref) => getPlacePhoto(ref)))
+  }, place)
+
   React.useEffect(() => {
     updateMaxStep()
-  }, place)
+  }, photos)
 
   return (
     <Card className={classes.card} align="center">
@@ -89,61 +121,63 @@ function PlaceCard({ place, id }) {
           />
         </ToolTip>
         <ToolTip title="Open GoogleMap">
-          <IconButton
-            className={classes.button}
-            href={place.url}
-            target="_blank">
+          <IconButton className={classes.button} href={url} target="_blank">
             <MapIcon />
           </IconButton>
         </ToolTip>
       </CardActions>
-      <CardMedia
-        className={classes.media}
-        component="img"
-        src={place.photos ? place.photos[activeStep] : 'no image'}
-        title={place.name}
-      />
-      <MobileStepper
-        steps={maxStep}
-        position="static"
-        variant="dots"
-        activeStep={activeStep}
-        nextButton={
-          <Button
-            size="small"
-            onClick={handleNext}
-            disabled={activeStep === maxStep - 1}>
-            Next
-            {theme.direction === 'rtl' ? (
-              <KeyboardArrowLeft />
-            ) : (
-              <KeyboardArrowRight />
-            )}
-          </Button>
-        }
-        backButton={
-          <Button
-            size="small"
-            onClick={handleBack}
-            disabled={activeStep === minStep}>
-            {theme.direction === 'rtl' ? (
-              <KeyboardArrowRight />
-            ) : (
-              <KeyboardArrowLeft />
-            )}
-            Back
-          </Button>
-        }
-      />
+      {photos ? (
+        <>
+          <CardMedia
+            className={classes.media}
+            component="img"
+            src={photos[activeStep]}
+            title={place.name}
+          />
+          <MobileStepper
+            steps={maxStep}
+            position="static"
+            variant="dots"
+            activeStep={activeStep}
+            nextButton={
+              <Button
+                size="small"
+                onClick={handleNext}
+                disabled={activeStep === maxStep - 1}>
+                Next
+                {theme.direction === 'rtl' ? (
+                  <KeyboardArrowLeft />
+                ) : (
+                  <KeyboardArrowRight />
+                )}
+              </Button>
+            }
+            backButton={
+              <Button
+                size="small"
+                onClick={handleBack}
+                disabled={activeStep === minStep}>
+                {theme.direction === 'rtl' ? (
+                  <KeyboardArrowRight />
+                ) : (
+                  <KeyboardArrowLeft />
+                )}
+                Back
+              </Button>
+            }
+          />
+        </>
+      ) : (
+        <></>
+      )}
     </Card>
   )
 }
 PlaceCard.propTypes = {
   place: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    photos: PropTypes.arrayOf(PropTypes.string),
-    rating: PropTypes.number,
-    url: PropTypes.string,
+    rating: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
   }).isRequired,
   id: PropTypes.number.isRequired,
 }

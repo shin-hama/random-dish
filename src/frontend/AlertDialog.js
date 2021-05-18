@@ -1,10 +1,22 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 import Snackbar from '@material-ui/core/Snackbar'
 import Alert from '@material-ui/lab/Alert'
 
-const AlertDialog = ({ message, setMessage }) => {
+let message
+let setMessage
+
+export const useAlertDialog = () => {
+  ;[message, setMessage] = React.useState('')
+}
+
+export const setAlertMessage = (alertMessage) => {
+  setMessage(alertMessage)
+}
+
+export const AlertDialog = () => {
   const [openAlert, setOpenAlert] = React.useState(false)
+
+  useAlertDialog()
 
   const handleAlertClose = (_event, reason) => {
     if (reason === 'clickaway') {
@@ -36,9 +48,3 @@ const AlertDialog = ({ message, setMessage }) => {
     </Snackbar>
   )
 }
-AlertDialog.propTypes = {
-  message: PropTypes.string.isRequired,
-  setMessage: PropTypes.func.isRequired,
-}
-
-export default AlertDialog
