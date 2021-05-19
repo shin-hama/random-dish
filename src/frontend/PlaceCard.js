@@ -49,6 +49,7 @@ function PlaceCard({ place, id }) {
   const [maxStep, setMaxStep] = React.useState(0)
   const [activeStep, setActiveStep] = React.useState(0)
   const [detail, setDetail] = React.useState({})
+  const [name, setName] = React.useState('')
   const [photos, setPhotos] = React.useState([])
   const [url, setUrl] = React.useState('')
 
@@ -95,17 +96,18 @@ function PlaceCard({ place, id }) {
   React.useEffect(() => {
     setPhotos([])
     getPlaceDetail(place.id)
-  }, place)
+  }, [place])
 
   React.useEffect(() => {
     setUrl(detail.url ?? '')
-  }, detail.url)
+    setName(detail.name ?? '')
+  }, [detail.url, detail.name])
 
   React.useEffect(() => {
     for (const photo of detail.photos?.slice(0, 3) ?? []) {
       getPlacePhoto(photo.photo_reference)
     }
-  }, detail.photos)
+  }, [detail.photos])
 
   React.useEffect(() => {
     updateMaxStep()
@@ -116,7 +118,7 @@ function PlaceCard({ place, id }) {
       <CardHeader
         avatar={<Avatar className={classes.avatar}>{id}</Avatar>}
         titleTypographyProps={{ variant: 'h6' }}
-        title={place.name}
+        title={name}
         className={classes.header}
       />
       <CardActions disableSpacing className={classes.actions}>

@@ -10,11 +10,9 @@ export const getMethod = ({ endpoint, query, callback }) => {
   const uri = query
     ? `${BaseApiHost}/${endpoint}?${query}`
     : `${BaseApiHost}/${endpoint}`
-  console.log(uri)
   axios
     .get(uri)
     .then((response) => {
-      console.log(response.data)
       callback?.(response.data)
     })
     .catch(() => {
