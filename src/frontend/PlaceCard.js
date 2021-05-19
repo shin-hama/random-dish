@@ -48,7 +48,8 @@ function PlaceCard({ place, id }) {
   const minStep = 0
   const [maxStep, setMaxStep] = React.useState(0)
   const [activeStep, setActiveStep] = React.useState(0)
-  const [photos, setPhotos] = React.useState()
+  const [detail, setDetail] = React.useState({})
+  const [photos, setPhotos] = React.useState([])
   const [url, setUrl] = React.useState('')
 
   const handleNext = () => {
@@ -73,12 +74,11 @@ function PlaceCard({ place, id }) {
     }
   }
 
-  const getPlacePhoto = (placeDetail) => {
+  const getPlacePhoto = (ref) => {
     getMethod({
-      endpoint: `photos/${placeDetail.photo_reference}`,
+      endpoint: `photos/${ref}`,
       callback: (data) => {
-        const photo = data
-        console.log(photo)
+        setPhotos((prev) => [...prev, data.result])
       },
     })
   }
@@ -87,21 +87,29 @@ function PlaceCard({ place, id }) {
     getMethod({
       endpoint: `details/${id}`,
       callback: (data) => {
-        const placeDetail = data
-        console.log(placeDetail)
+        setDetail(data)
       },
     })
   }
 
   React.useEffect(() => {
-    const detail = getPlaceDetail(place.id)
-    setUrl(detail.url)
-    setPhotos(detail.photos.slice(0, 3).map((ref) => getPlacePhoto(ref)))
+    setPhotos([])
+    getPlaceDetail(place.id)
   }, place)
 
   React.useEffect(() => {
+    setUrl(detail.url ?? '')
+  }, detail.url)
+
+  React.useEffect(() => {
+    for (const photo of detail.photos?.slice(0, 3) ?? []) {
+      getPlacePhoto(photo.photo_reference)
+    }
+  }, detail.photos)
+
+  React.useEffect(() => {
     updateMaxStep()
-  }, photos)
+  }, [photos.length])
 
   return (
     <Card className={classes.card} align="center">
@@ -126,7 +134,7 @@ function PlaceCard({ place, id }) {
           </IconButton>
         </ToolTip>
       </CardActions>
-      {photos ? (
+      {photos.length !== 0 ? (
         <>
           <CardMedia
             className={classes.media}

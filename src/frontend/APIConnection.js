@@ -18,7 +18,6 @@ export const getMethod = ({ endpoint, query, callback }) => {
       callback?.(response.data)
     })
     .catch(() => {
-      console.log('fail to use google map api')
       setAlertMessage('fail to communicate with api')
     })
 }
