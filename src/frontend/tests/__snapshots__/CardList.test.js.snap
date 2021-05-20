@@ -44,7 +44,7 @@ exports[`Update places 1`] = `
       >
         <span
           aria-describedby={null}
-          aria-label="0 Stars"
+          aria-label="4 Stars"
           className="MuiRating-root MuiRating-readOnly"
           onBlur={[Function]}
           onFocus={[Function]}
@@ -70,7 +70,7 @@ exports[`Update places 1`] = `
               }
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -88,7 +88,7 @@ exports[`Update places 1`] = `
               style={Object {}}
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -117,7 +117,7 @@ exports[`Update places 1`] = `
               }
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -135,7 +135,7 @@ exports[`Update places 1`] = `
               style={Object {}}
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -164,7 +164,7 @@ exports[`Update places 1`] = `
               }
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -182,7 +182,7 @@ exports[`Update places 1`] = `
               style={Object {}}
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -211,7 +211,7 @@ exports[`Update places 1`] = `
               }
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -229,7 +229,7 @@ exports[`Update places 1`] = `
               style={Object {}}
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -1026,7 +1026,7 @@ exports[`Update places 2`] = `
       >
         <span
           aria-describedby={null}
-          aria-label="0 Stars"
+          aria-label="4 Stars"
           className="MuiRating-root MuiRating-readOnly"
           onBlur={[Function]}
           onFocus={[Function]}
@@ -1052,7 +1052,7 @@ exports[`Update places 2`] = `
               }
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -1070,7 +1070,7 @@ exports[`Update places 2`] = `
               style={Object {}}
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -1099,7 +1099,7 @@ exports[`Update places 2`] = `
               }
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -1117,7 +1117,7 @@ exports[`Update places 2`] = `
               style={Object {}}
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -1146,7 +1146,7 @@ exports[`Update places 2`] = `
               }
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -1164,7 +1164,7 @@ exports[`Update places 2`] = `
               style={Object {}}
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -1193,7 +1193,7 @@ exports[`Update places 2`] = `
               }
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}
@@ -1211,7 +1211,7 @@ exports[`Update places 2`] = `
               style={Object {}}
             >
               <span
-                className="MuiRating-icon MuiRating-iconEmpty"
+                className="MuiRating-icon MuiRating-iconFilled"
               >
                 <svg
                   aria-hidden={true}

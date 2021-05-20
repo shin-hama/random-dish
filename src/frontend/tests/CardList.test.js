@@ -10,12 +10,15 @@ test('Empty card list', () => {
 
 test('Update places', () => {
   const places = [
-    { name: 'minimum' },
     {
       name: 'all',
-      photos: ['1', '2', '3'],
       rating: 4.1,
-      url: 'dummy/path.html',
+      id: '0',
+    },
+    {
+      name: 'all',
+      rating: 4.1,
+      id: '1',
     },
   ]
   let component = null
