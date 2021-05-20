@@ -20,7 +20,6 @@ import { getMethod } from './APIConnection'
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    marginTop: theme.spacing(4),
     marginBottom: theme.spacing(4),
   },
   header: {

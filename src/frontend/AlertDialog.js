@@ -16,8 +16,6 @@ export const setAlertMessage = (alertMessage) => {
 export const AlertDialog = () => {
   const [openAlert, setOpenAlert] = React.useState(false)
 
-  useAlertDialog()
-
   const handleAlertClose = (_event, reason) => {
     if (reason === 'clickaway') {
       return

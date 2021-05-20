@@ -48,21 +48,21 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles()
-  const [openDrawer, setOpenDrawer] = React.useState(false)
-  const [openMap, setOpenMap] = React.useState(false)
+  const [isOpenDrawer, setIsOpenDrawer] = React.useState(false)
+  const [isOpenMap, setIsOpenMap] = React.useState(false)
   const [places, setPlaces] = React.useState([])
   const [position, setPosition] = React.useState({})
-  const [openNow, setOpenNow] = React.useState(true)
+  const [isOpenNow, setIsOpenNow] = React.useState(true)
   const [radius, setRadius] = React.useState(0)
 
   useAlertDialog()
 
   const handleDrawerOpen = () => {
-    setOpenDrawer(!openDrawer)
+    setIsOpenDrawer(!isOpenDrawer)
   }
 
   const openNowChanged = () => {
-    setOpenNow(!openNow)
+    setIsOpenNow(!isOpenNow)
   }
 
   const updateRadius = (value) => {
@@ -71,7 +71,7 @@ function App() {
 
   const onClick = () => {
     getPlaces()
-    setOpenMap(true)
+    setIsOpenMap(true)
   }
 
   React.useEffect(() => {
@@ -79,7 +79,7 @@ function App() {
   }, [])
 
   const getPlaces = () => {
-    const query = `lat=${position.lat}&lng=${position.lng}&radius=${radius}&open_now=${openNow}`
+    const query = `lat=${position.lat}&lng=${position.lng}&radius=${radius}&open_now=${isOpenNow}`
     getMethod({
       endpoint: 'places/nearby',
       query: query,
@@ -134,33 +134,26 @@ function App() {
       <CssBaseLine />
       <Header menuIconClicked={handleDrawerOpen} />
       <RightDrawer
-        open={openDrawer}
+        open={isOpenDrawer}
         handleDrawerClose={handleDrawerOpen}
         updateRadius={updateRadius}
-        openNow={openNow}
+        openNow={isOpenNow}
         openNowChanged={openNowChanged}
       />
       <main
         className={clsx(classes.content, {
-          [classes.contentShift]: openDrawer,
+          [classes.contentShift]: isOpenDrawer,
         })}>
         <Container>
           <Typography
-            component="h1"
-            variant="h2"
+            component="h2"
+            variant="h3"
             align="center"
             color="textPrimary"
             gutterBottom>
-            Find Your Dish!!
+            今日なに食べる ?
           </Typography>
-          <Typography
-            variant="h5"
-            align="center"
-            color="textSecondary"
-            paragraph>
-            What will you eat?
-          </Typography>{' '}
-          <Collapse in={openMap} timeout="auto">
+          <Collapse in={isOpenMap} timeout="auto">
             <CardList places={places} />
             <Grid container justify="center">
               <Map center={position} places={places} radius={radius} />
@@ -173,7 +166,7 @@ function App() {
                 color="primary"
                 onClick={onClick}
                 className={classes.mainButton}>
-                {openMap ? 'retry' : 'Enjoy your dish'}
+                {isOpenMap ? 'なんか違う...' : 'なんでもいい'}
               </Button>
             </Grid>
           </Grid>
@@ -181,7 +174,7 @@ function App() {
       </main>
       <footer
         className={clsx(classes.footer, classes.content, {
-          [classes.contentShift]: openDrawer,
+          [classes.contentShift]: isOpenDrawer,
         })}>
         <Copyright />
       </footer>
