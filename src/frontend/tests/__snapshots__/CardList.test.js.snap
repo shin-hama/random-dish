@@ -2,16 +2,16 @@
 
 exports[`Empty card list 1`] = `
 <div
-  className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
+  className="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
 />
 `;
 
 exports[`Update places 1`] = `
 <div
-  className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
+  className="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
 >
   <div
-    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-md-4 MuiGrid-grid-lg-4"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 MuiGrid-grid-lg-4"
   >
     <div
       align="center"
@@ -35,7 +35,7 @@ exports[`Update places 1`] = `
           <span
             className="MuiTypography-root MuiCardHeader-title MuiTypography-h6 MuiTypography-displayBlock"
           >
-            minimum
+            
           </span>
         </div>
       </div>
@@ -296,6 +296,7 @@ exports[`Update places 1`] = `
           aria-describedby={null}
           className="MuiButtonBase-root MuiIconButton-root makeStyles-button-5"
           disabled={false}
+          href=""
           onBlur={[Function]}
           onDragLeave={[Function]}
           onFocus={[Function]}
@@ -332,93 +333,10 @@ exports[`Update places 1`] = `
           />
         </button>
       </div>
-      <img
-        className="MuiCardMedia-root makeStyles-media-6 MuiCardMedia-media MuiCardMedia-img"
-        src="no image"
-        title="minimum"
-      />
-      <div
-        className="MuiPaper-root MuiMobileStepper-root MuiMobileStepper-positionStatic MuiPaper-elevation0"
-      >
-        <button
-          className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall Mui-disabled Mui-disabled"
-          disabled={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={-1}
-          type="button"
-        >
-          <span
-            className="MuiButton-label"
-          >
-            <svg
-              aria-hidden={true}
-              className="MuiSvgIcon-root"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"
-              />
-            </svg>
-            Back
-          </span>
-        </button>
-        <div
-          className="MuiMobileStepper-dots"
-        />
-        <button
-          className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={0}
-          type="button"
-        >
-          <span
-            className="MuiButton-label"
-          >
-            Next
-            <svg
-              aria-hidden={true}
-              className="MuiSvgIcon-root"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
-              />
-            </svg>
-          </span>
-          <span
-            className="MuiTouchRipple-root"
-          />
-        </button>
-      </div>
     </div>
   </div>
   <div
-    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-md-4 MuiGrid-grid-lg-4"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 MuiGrid-grid-lg-4"
   >
     <div
       align="center"
@@ -442,7 +360,7 @@ exports[`Update places 1`] = `
           <span
             className="MuiTypography-root MuiCardHeader-title MuiTypography-h6 MuiTypography-displayBlock"
           >
-            all
+            
           </span>
         </div>
       </div>
@@ -699,11 +617,11 @@ exports[`Update places 1`] = `
             </span>
           </span>
         </span>
-        <a
+        <button
           aria-describedby={null}
-          aria-disabled={false}
           className="MuiButtonBase-root MuiIconButton-root makeStyles-button-5"
-          href="dummy/path.html"
+          disabled={false}
+          href=""
           onBlur={[Function]}
           onDragLeave={[Function]}
           onFocus={[Function]}
@@ -719,6 +637,7 @@ exports[`Update places 1`] = `
           tabIndex={0}
           target="_blank"
           title="Open GoogleMap"
+          type="button"
         >
           <span
             className="MuiIconButton-label"
@@ -731,99 +650,6 @@ exports[`Update places 1`] = `
             >
               <path
                 d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"
-              />
-            </svg>
-          </span>
-          <span
-            className="MuiTouchRipple-root"
-          />
-        </a>
-      </div>
-      <img
-        className="MuiCardMedia-root makeStyles-media-6 MuiCardMedia-media MuiCardMedia-img"
-        src="1"
-        title="all"
-      />
-      <div
-        className="MuiPaper-root MuiMobileStepper-root MuiMobileStepper-positionStatic MuiPaper-elevation0"
-      >
-        <button
-          className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall Mui-disabled Mui-disabled"
-          disabled={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={-1}
-          type="button"
-        >
-          <span
-            className="MuiButton-label"
-          >
-            <svg
-              aria-hidden={true}
-              className="MuiSvgIcon-root"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"
-              />
-            </svg>
-            Back
-          </span>
-        </button>
-        <div
-          className="MuiMobileStepper-dots"
-        >
-          <div
-            className="MuiMobileStepper-dot MuiMobileStepper-dotActive"
-          />
-          <div
-            className="MuiMobileStepper-dot"
-          />
-          <div
-            className="MuiMobileStepper-dot"
-          />
-        </div>
-        <button
-          className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={0}
-          type="button"
-        >
-          <span
-            className="MuiButton-label"
-          >
-            Next
-            <svg
-              aria-hidden={true}
-              className="MuiSvgIcon-root"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
               />
             </svg>
           </span>
@@ -839,10 +665,10 @@ exports[`Update places 1`] = `
 
 exports[`Update places 2`] = `
 <div
-  className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
+  className="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
 >
   <div
-    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-md-4 MuiGrid-grid-lg-4"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 MuiGrid-grid-lg-4"
   >
     <div
       align="center"
@@ -866,7 +692,7 @@ exports[`Update places 2`] = `
           <span
             className="MuiTypography-root MuiCardHeader-title MuiTypography-h6 MuiTypography-displayBlock"
           >
-            all
+            
           </span>
         </div>
       </div>
@@ -1123,11 +949,11 @@ exports[`Update places 2`] = `
             </span>
           </span>
         </span>
-        <a
+        <button
           aria-describedby={null}
-          aria-disabled={false}
           className="MuiButtonBase-root MuiIconButton-root makeStyles-button-5"
-          href="dummy/path.html"
+          disabled={false}
+          href=""
           onBlur={[Function]}
           onDragLeave={[Function]}
           onFocus={[Function]}
@@ -1143,6 +969,7 @@ exports[`Update places 2`] = `
           tabIndex={0}
           target="_blank"
           title="Open GoogleMap"
+          type="button"
         >
           <span
             className="MuiIconButton-label"
@@ -1161,105 +988,12 @@ exports[`Update places 2`] = `
           <span
             className="MuiTouchRipple-root"
           />
-        </a>
-      </div>
-      <img
-        className="MuiCardMedia-root makeStyles-media-6 MuiCardMedia-media MuiCardMedia-img"
-        src="1"
-        title="all"
-      />
-      <div
-        className="MuiPaper-root MuiMobileStepper-root MuiMobileStepper-positionStatic MuiPaper-elevation0"
-      >
-        <button
-          className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall Mui-disabled Mui-disabled"
-          disabled={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={-1}
-          type="button"
-        >
-          <span
-            className="MuiButton-label"
-          >
-            <svg
-              aria-hidden={true}
-              className="MuiSvgIcon-root"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"
-              />
-            </svg>
-            Back
-          </span>
-        </button>
-        <div
-          className="MuiMobileStepper-dots"
-        >
-          <div
-            className="MuiMobileStepper-dot MuiMobileStepper-dotActive"
-          />
-          <div
-            className="MuiMobileStepper-dot"
-          />
-          <div
-            className="MuiMobileStepper-dot"
-          />
-        </div>
-        <button
-          className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={0}
-          type="button"
-        >
-          <span
-            className="MuiButton-label"
-          >
-            Next
-            <svg
-              aria-hidden={true}
-              className="MuiSvgIcon-root"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
-              />
-            </svg>
-          </span>
-          <span
-            className="MuiTouchRipple-root"
-          />
         </button>
       </div>
     </div>
   </div>
   <div
-    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-md-4 MuiGrid-grid-lg-4"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 MuiGrid-grid-lg-4"
   >
     <div
       align="center"
@@ -1283,7 +1017,7 @@ exports[`Update places 2`] = `
           <span
             className="MuiTypography-root MuiCardHeader-title MuiTypography-h6 MuiTypography-displayBlock"
           >
-            minimum
+            
           </span>
         </div>
       </div>
@@ -1544,6 +1278,7 @@ exports[`Update places 2`] = `
           aria-describedby={null}
           className="MuiButtonBase-root MuiIconButton-root makeStyles-button-5"
           disabled={false}
+          href=""
           onBlur={[Function]}
           onDragLeave={[Function]}
           onFocus={[Function]}
@@ -1572,89 +1307,6 @@ exports[`Update places 2`] = `
             >
               <path
                 d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"
-              />
-            </svg>
-          </span>
-          <span
-            className="MuiTouchRipple-root"
-          />
-        </button>
-      </div>
-      <img
-        className="MuiCardMedia-root makeStyles-media-6 MuiCardMedia-media MuiCardMedia-img"
-        src="no image"
-        title="minimum"
-      />
-      <div
-        className="MuiPaper-root MuiMobileStepper-root MuiMobileStepper-positionStatic MuiPaper-elevation0"
-      >
-        <button
-          className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall Mui-disabled Mui-disabled"
-          disabled={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={-1}
-          type="button"
-        >
-          <span
-            className="MuiButton-label"
-          >
-            <svg
-              aria-hidden={true}
-              className="MuiSvgIcon-root"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"
-              />
-            </svg>
-            Back
-          </span>
-        </button>
-        <div
-          className="MuiMobileStepper-dots"
-        />
-        <button
-          className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={0}
-          type="button"
-        >
-          <span
-            className="MuiButton-label"
-          >
-            Next
-            <svg
-              aria-hidden={true}
-              className="MuiSvgIcon-root"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
               />
             </svg>
           </span>
