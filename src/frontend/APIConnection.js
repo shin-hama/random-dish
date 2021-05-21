@@ -6,7 +6,7 @@ import { setAlertMessage } from './AlertDialog'
 const BaseApiHost =
   `${process.env.REACT_APP_API_SERVER}/api` || `//${location.host}/api`
 
-export const getMethod = ({ endpoint, query, callback }) => {
+export const getMethod = async ({ endpoint, query, callback }) => {
   const uri = query
     ? `${BaseApiHost}/${endpoint}?${query}`
     : `${BaseApiHost}/${endpoint}`
@@ -23,5 +23,4 @@ getMethod.propTypes = {
   endpoint: PropTypes.string.isRequired,
   query: PropTypes.string,
   callback: PropTypes.func,
-  errorCallback: PropTypes.func,
 }

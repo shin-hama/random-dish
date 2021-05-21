@@ -16,6 +16,7 @@ import Button from '@material-ui/core/Button'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 
+import { useAlertDialog } from './AlertDialog'
 import { getMethod } from './APIConnection'
 
 const useStyles = makeStyles((theme) => ({
@@ -51,6 +52,8 @@ function PlaceCard({ place, id }) {
   const [name, setName] = React.useState('')
   const [photos, setPhotos] = React.useState([])
   const [url, setUrl] = React.useState('')
+
+  useAlertDialog()
 
   const handleNext = () => {
     setActiveStep((prevValue) => {
