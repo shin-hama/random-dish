@@ -47,7 +47,7 @@ function Map({ center, places, radius }) {
         {places.map((place, i) => (
           <Marker
             key={i}
-            position={place.geometry.location}
+            position={place.location}
             label={markerLabel(i.toString())}
           />
         ))}
@@ -59,7 +59,14 @@ function Map({ center, places, radius }) {
 }
 Map.propTypes = {
   center: PropTypes.object.isRequired,
-  places: PropTypes.array,
+  places: PropTypes.arrayOf(
+    PropTypes.shape({
+      location: PropTypes.shape({
+        lat: PropTypes.number,
+        lng: PropTypes.number,
+      }),
+    })
+  ),
   radius: PropTypes.number,
 }
 export default Map

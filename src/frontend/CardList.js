@@ -4,12 +4,12 @@ import Grid from '@material-ui/core/Grid'
 
 import PlaceCard from './PlaceCard'
 
-function CardList({ places }) {
+function CardList(props) {
   return (
-    <Grid container spacing={3} alignItems="center" justify="center">
-      {places ? (
-        places.map((item, i) => (
-          <Grid key={i} item xs={6} md={4} lg={4}>
+    <Grid container spacing={0} alignItems="center" justify="center">
+      {props.places ? (
+        props.places.map((item, i) => (
+          <Grid key={i} item xs={12} md={4} lg={4}>
             <PlaceCard place={item} id={i} />
           </Grid>
         ))

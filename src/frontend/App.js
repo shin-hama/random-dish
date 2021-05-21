@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -7,10 +6,10 @@ import Collapse from '@material-ui/core/Collapse'
 import Container from '@material-ui/core/Container'
 import CssBaseLine from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
-import Snackbar from '@material-ui/core/Snackbar'
 import Typography from '@material-ui/core/Typography'
-import Alert from '@material-ui/lab/Alert'
 
+import { AlertDialog, setAlertMessage, useAlertDialog } from './AlertDialog'
+import { getMethod } from './APIConnection'
 import Copyright from './Footer'
 import Header from './Header'
 import Map from './Map'
@@ -47,25 +46,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const BaseApiHost = `//${location.host}/api`
-
 function App() {
   const classes = useStyles()
-  const [openDrawer, setOpenDrawer] = React.useState(false)
-  const [openMap, setOpenMap] = React.useState(false)
-  const [places, setPlaces] = React.useState({ results: [] })
+  const [isOpenDrawer, setIsOpenDrawer] = React.useState(false)
+  const [isOpenMap, setIsOpenMap] = React.useState(false)
+  const [places, setPlaces] = React.useState([])
   const [position, setPosition] = React.useState({})
-  const [openNow, setOpenNow] = React.useState(true)
+  const [isOpenNow, setIsOpenNow] = React.useState(true)
   const [radius, setRadius] = React.useState(0)
-  const [openAlert, setOpenAlert] = React.useState(false)
-  const [alertMessage, setAlertMessage] = React.useState('')
+
+  useAlertDialog()
 
   const handleDrawerOpen = () => {
-    setOpenDrawer(!openDrawer)
+    setIsOpenDrawer(!isOpenDrawer)
   }
 
   const openNowChanged = () => {
-    setOpenNow(!openNow)
+    setIsOpenNow(!isOpenNow)
   }
 
   const updateRadius = (value) => {
@@ -74,19 +71,7 @@ function App() {
 
   const onClick = () => {
     getPlaces()
-    setOpenMap(true)
-  }
-
-  const handleOpenAlert = (message) => {
-    setOpenAlert(true)
-    setAlertMessage(message)
-  }
-
-  const handleAlertClose = (_event, reason) => {
-    if (reason === 'clickaway') {
-      return
-    }
-    setOpenAlert(false)
+    setIsOpenMap(true)
   }
 
   React.useEffect(() => {
@@ -94,16 +79,24 @@ function App() {
   }, [])
 
   const getPlaces = () => {
-    const queries = `lat=${position.lat}&lng=${position.lng}&radius=${radius}&open_now=${openNow}`
-    axios
-      .get(`${BaseApiHost}/places/nearby?${queries}`)
-      .then((response) => {
-        setPlaces(response.data)
-      })
-      .catch(() => {
-        console.log('fail to use google map api')
-        handleOpenAlert('fail to communicate with api')
-      })
+    const query = `lat=${position.lat}&lng=${position.lng}&radius=${radius}&open_now=${isOpenNow}`
+    getMethod({
+      endpoint: 'places/nearby',
+      query: query,
+      callback: (data) => {
+        setPlaces(
+          data.result.map((item) => ({
+            name: item.name,
+            rating: item.rating,
+            location: {
+              lat: item.geometry.location.lat,
+              lng: item.geometry.location.lng,
+            },
+            id: item.place_id,
+          }))
+        )
+      },
+    })
   }
 
   const getPosition = () => {
@@ -119,20 +112,20 @@ function App() {
           if (navigator.permissions) {
             navigator.permissions.query({ name: 'geolocation' }).then((res) => {
               if (res.state === 'denied') {
-                handleOpenAlert(
+                setAlertMessage(
                   'Enable location permissions for this website in your browser settings and reload this page.'
                 )
               }
             })
           } else {
-            handleOpenAlert(
+            setAlertMessage(
               'Unable to access location. You can continue by submitting location manually.'
             )
           }
         }
       )
     } else {
-      handleOpenAlert('Sorry, Geolocation is not supported by this browser.')
+      setAlertMessage('Sorry, Geolocation is not supported by this browser.')
     }
   }
 
@@ -141,36 +134,29 @@ function App() {
       <CssBaseLine />
       <Header menuIconClicked={handleDrawerOpen} />
       <RightDrawer
-        open={openDrawer}
+        open={isOpenDrawer}
         handleDrawerClose={handleDrawerOpen}
         updateRadius={updateRadius}
-        openNow={openNow}
+        openNow={isOpenNow}
         openNowChanged={openNowChanged}
       />
       <main
         className={clsx(classes.content, {
-          [classes.contentShift]: openDrawer,
+          [classes.contentShift]: isOpenDrawer,
         })}>
         <Container>
           <Typography
-            component="h1"
-            variant="h2"
+            component="h2"
+            variant="h3"
             align="center"
             color="textPrimary"
             gutterBottom>
-            Find Your Dish!!
+            今日なに食べる ?
           </Typography>
-          <Typography
-            variant="h5"
-            align="center"
-            color="textSecondary"
-            paragraph>
-            What will you eat?
-          </Typography>{' '}
-          <Collapse in={openMap} timeout="auto">
-            <CardList places={places.results} />
+          <Collapse in={isOpenMap} timeout="auto">
+            <CardList places={places} />
             <Grid container justify="center">
-              <Map center={position} places={places.results} radius={radius} />
+              <Map center={position} places={places} radius={radius} />
             </Grid>
           </Collapse>
           <Grid container justify="center">
@@ -180,7 +166,7 @@ function App() {
                 color="primary"
                 onClick={onClick}
                 className={classes.mainButton}>
-                {openMap ? 'retry' : 'Enjoy your dish'}
+                {isOpenMap ? 'なんか違う...' : 'なんでもいい'}
               </Button>
             </Grid>
           </Grid>
@@ -188,22 +174,11 @@ function App() {
       </main>
       <footer
         className={clsx(classes.footer, classes.content, {
-          [classes.contentShift]: openDrawer,
+          [classes.contentShift]: isOpenDrawer,
         })}>
         <Copyright />
       </footer>
-      <Snackbar
-        open={openAlert}
-        autoHideDuration={6000}
-        onClose={handleAlertClose}>
-        <Alert
-          elevation={6}
-          variant="filled"
-          onClose={handleAlertClose}
-          severity="error">
-          {alertMessage}
-        </Alert>
-      </Snackbar>
+      <AlertDialog />
     </div>
   )
 }
