@@ -1,1 +1,1 @@
-web: poetry run random_dish
+web: python .\src\random_dish\main.py
