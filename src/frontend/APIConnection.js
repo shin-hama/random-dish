@@ -6,6 +6,8 @@ import { setAlertMessage } from './AlertDialog'
 const BaseApiHost =
   `${process.env.REACT_APP_API_SERVER}/api` || `//${location.host}/api`
 
+console.log(location.host)
+
 export const getMethod = async ({ endpoint, query, callback }) => {
   const uri = query
     ? `${BaseApiHost}/${endpoint}?${query}`
