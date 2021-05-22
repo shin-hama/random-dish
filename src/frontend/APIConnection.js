@@ -3,8 +3,8 @@ import axios from 'axios'
 
 import { setAlertMessage } from './AlertDialog'
 
-const BaseApiHost =
-  `${process.env.REACT_APP_API_SERVER}/api` || `//${location.host}/api`
+const host = process.env.REACT_APP_API_SERVER ?? `//${location.host}`
+const BaseApiHost = `${host}/api`
 
 export const getMethod = async ({ endpoint, query, callback }) => {
   const uri = query

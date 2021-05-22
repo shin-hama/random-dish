@@ -7,7 +7,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 
-from random_dish.google_maps_wrapper import GoogleMap
+from .google_maps_wrapper import GoogleMap
 
 app = FastAPI()
 app.mount("/index", StaticFiles(directory="build", html=True), name="react")
