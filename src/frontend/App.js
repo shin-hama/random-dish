@@ -163,7 +163,7 @@ function App() {
             <Grid item>
               <Button
                 variant="contained"
-                color="primary"
+                color="secondary"
                 onClick={onClick}
                 className={classes.mainButton}>
                 {isOpenMap ? 'なんか違う...' : 'なんでもいい'}
