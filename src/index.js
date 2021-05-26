@@ -15,23 +15,28 @@ const customTheme = createMuiTheme({
   },
   palette: {
     primary: {
-      main: '#00A9E0',
-      contrastText: 'white',
+      main: '#1A535C',
+      contrastText: '#F7FFF7',
     },
     secondary: {
-      main: '#78BE20',
+      main: '#FFE047',
+      contrastText: '#1A535C',
     },
     error: {
-      main: '#DA1884',
+      main: '#FF6B6B',
+      contrastText: '#F7FFF7',
     },
     warning: {
-      main: '#FF6A13',
+      main: '#FFE66D',
+      contrastText: '#1A535C',
     },
     info: {
-      main: '#8031A7',
+      main: '#24737F',
+      contrastText: '#F7FFF7',
     },
     success: {
-      main: '#00B2A9',
+      main: '#5892DA',
+      contrastText: '#F7FFF7',
     },
   },
   props: {

@@ -18,7 +18,6 @@ import Select from '@material-ui/core/Select'
 import CloseIcon from '@material-ui/icons/Close'
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar'
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk'
-import { blue, grey } from '@material-ui/core/colors'
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -37,13 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
   selector: {
     minWidth: 200,
-  },
-  enable: {
-    color: blue[600],
-  },
-  disable: {
-    color: grey[400],
-    fontSize: 'small',
   },
 }))
 
@@ -75,15 +67,20 @@ SearchRangeForm.propTypes = {
 }
 
 const TransportationIcon = ({ byWalk, handleTransportation }) => {
-  const classes = useStyles()
+  const selected = {
+    color: 'primary',
+    fontSize: 'large',
+  }
+
+  const unselected = {
+    color: 'disabled',
+    fontSize: 'small',
+  }
+
   return (
     <IconButton edge="end" aria-label="comments" onClick={handleTransportation}>
-      <DirectionsWalkIcon
-        className={byWalk ? classes.enable : classes.disable}
-      />
-      <DirectionsCarIcon
-        className={byWalk ? classes.disable : classes.enable}
-      />
+      <DirectionsWalkIcon {...(byWalk ? selected : unselected)} />
+      <DirectionsCarIcon {...(byWalk ? unselected : selected)} />
     </IconButton>
   )
 }
